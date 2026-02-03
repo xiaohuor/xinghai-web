@@ -1,0 +1,164 @@
+{
+  "topCards": {
+    "capability": {
+      "total": 128,
+      "tools": 45,
+      "models": 83
+    },
+    "calls": {
+      "total": 124.6,
+      "tools": 48.3,
+      "models": 76.3
+    },
+    "creators": {
+      "total": 1033,
+      "perCapita": 1,
+      "ecosystem": 533,
+      "internal": 500
+    },
+    "users": {
+      "total": 2456,
+      "customers": 1338,
+      "internal": 1234,
+      "external": 1222
+    }
+  },
+  "modelCapabilityRanking": [
+    {
+      "name": "智能推荐",
+      "value": 23540
+    },
+    {
+      "name": "标签识别",
+      "value": 19388
+    },
+    {
+      "name": "文本分析",
+      "value": 18790
+    },
+    {
+      "name": "语音合成",
+      "value": 3540
+    },
+    {
+      "name": "图像识别",
+      "value": 2093
+    }
+  ],
+  "toolCapabilityRanking": [
+    {
+      "name": "标签识别",
+      "value": 19388
+    },
+    {
+      "name": "智能推荐",
+      "value": 13540
+    },
+    {
+      "name": "语音合成",
+      "value": 1240
+    },
+    {
+      "name": "文本分析",
+      "value": 1090
+    },
+    {
+      "name": "图像识别",
+      "value": 830
+    }
+  ],
+  "customerRanking": [
+    {
+      "name": "京东集团",
+      "value": 26351
+    },
+    {
+      "name": "量子科技材料有限公司",
+      "value": 19540
+    },
+    {
+      "name": "创联生物科技有限公司",
+      "value": 16540
+    },
+    {
+      "name": "富田电子科技有限公司",
+      "value": 16540
+    },
+    {
+      "name": "京东集团",
+      "value": 16540
+    },
+    {
+      "name": "量子科技材料有限公司",
+      "value": 16540
+    },
+    {
+      "name": "创联生物科技有限公司",
+      "value": 16540
+    },
+    {
+      "name": "富田电子科技有限公司",
+      "value": 16540
+    },
+    {
+      "name": "创联生物科技有限公司",
+      "value": 9990
+    },
+    {
+      "name": "富田电子科技有限公司",
+      "value": 8540
+    }
+  ],
+  "expertRanking": [
+    {
+      "name": "刘面",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 29.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 15.7
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 9.6
+    },
+    {
+      "name": "张伟",
+      "level": 23,
+      "value": 8.6
+    }
+  ]
+}
