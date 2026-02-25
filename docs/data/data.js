@@ -213,9 +213,9 @@ export const overviewData = {
   topCards: {
     // 能力数据
     capability: {
-      total: 128,
+      total: 228,
       tools: 45,
-      models: 83,
+      models: 183,
     },
     // 模型调用数据
     calls: {
