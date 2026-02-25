@@ -11,5 +11,7 @@
 <style scoped>
 .home-container {
   padding: 20px;
+  height: 100%;
+  overflow: auto;
 }
 </style>

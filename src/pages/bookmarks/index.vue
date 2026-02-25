@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <el-scrollbar height="calc(100vh - 140px)">
+    <el-scrollbar style="flex: 1;">
       <el-row :gutter="20" class="bookmark-list">
         <el-col
           v-for="(item, index) in filteredBookmarks"

@@ -1,10 +1,9 @@
 <template>
-  <el-row align="middle" class="page-header">
-    <el-col :span="4" class="logo-col">
+  <div class="page-header">
+    <div :span="4" class="logo-col">
       <img :src="welcome" alt="welcome" class="welcome">
       <span class="title">星海的空间</span>
-    </el-col>
-    <el-col :span="14">
+    </div>
       <el-menu mode="horizontal" :default-active="activeName" @select="selectHandle" :ellipsis="false" class="custom-menu">
         <template v-for="(item, index) in menu" :key="index">
           <el-menu-item :index="item.name as string">
@@ -15,8 +14,7 @@
           </el-menu-item>
         </template>
       </el-menu>
-    </el-col>
-  </el-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,6 +39,9 @@ const menu = mainRoute?.children || []
 <style scoped lang="scss">
 .page-header {
   height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 .welcome {
   width: 60px;
@@ -50,9 +51,9 @@ const menu = mainRoute?.children || []
 .logo-col {
   display: flex;
   align-items: center;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
   height: 100%;
+  width: 220px;
 }
 .title {
   vertical-align: middle;

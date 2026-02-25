@@ -16,8 +16,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/pages/nav-technology/index.vue'),
   },
   {
-    name: 'app-list',
-    path: '/app-list',
+    name: 'app',
+    path: '/app',
     component: () => import('@/pages/app-list/index.vue'),
   },
   {
