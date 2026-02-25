@@ -39,6 +39,9 @@
 </template>
 
 <script>
+// const baseUrl = "https://xiaohuoer.gitee.io/xinghai";
+const baseUrl = "https://xiaohuor.github.io/xinghai-web";
+
 export default {
   name: "app-list",
   data() {
@@ -47,39 +50,39 @@ export default {
       list1: [
         {
           title: "星海的小站",
-          url: "https://xiaohuoer.gitee.io/xinghai"
+          url: baseUrl
         },
         {
           title: "个人书签",
-          url: "https://xiaohuoer.gitee.io/xinghai/#/bookmarks"
+          url: baseUrl + "#/bookmarks"
         },
         {
           title: "技术导航",
-          url: "https://xiaohuoer.gitee.io/xinghai/#/nav-technology"
+          url: baseUrl + "#/nav-technology"
         },
       ],
       list2: [
         {
           title: "医药知识小站",
-          url: "https://xiaohuoer.gitee.io/health"
+          url: baseUrl + "/health"
         },
         {
           title: "生日祝福",
-          url: "https://xiaohuoer.gitee.io/h5/birthday/"
+          url: baseUrl + "/h5/birthday/"
         },
         {
           title: "2020倒计时",
-          url: "https://xiaohuoer.gitee.io/h5/countdown/"
+          url: baseUrl + "/h5/countdown/"
         },
         {
           title: "6%",
-          url: "https://xiaohuoer.gitee.io/h5/6-percents/"
+          url: baseUrl + "/h5/6-percents/"
         },{
           title: "思睿康药量变化和网购行为关系",
-          url: "https://xiaohuoer.gitee.io/h5/charts-heyue/"
+          url: baseUrl + "/h5/charts-heyue/"
         },{
           title: "个人简历",
-          url: "https://xiaohuoer.gitee.io/h5/resume/"
+          url: baseUrl + "/h5/resume/"
         },
       ]
     };
