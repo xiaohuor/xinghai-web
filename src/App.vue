@@ -1,14 +1,17 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <router-view />
 </template>
 
+<script setup lang="ts">
+</script>
+
 <style>
-html, body, #app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+#app {
+  height: 100vh;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "microsoft yahei";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 </style>
