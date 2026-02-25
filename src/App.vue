@@ -1,12 +1,14 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <div id="app" style="height:100vh;">
-    <router-view/>
-  </div>
+  <router-view />
 </template>
 
-<script>
-
-export default {
-  name: 'app',
+<style>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-</script>
+</style>
