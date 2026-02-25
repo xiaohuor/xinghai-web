@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>2020年季度考核倒计时</title>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="MobileOptimized" content="320">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="full-screen" content="yes">
+  <meta name="x5-fullscreen" content="true">
+  <meta name="browsermode" content="application">
+  <meta name="x5-page-mode" content="app">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <link rel='stylesheet' href="./static/css/swiper-3.4.2.min.css" type='text/css' />
+  <link rel='stylesheet' href="./static/css/animation.css" type='text/css' />
+  <script src="./static/js/flexible.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      height: 64px;
+      width: 190px;
+      position: absolute;
+      top: 26px;
+      left: 47px;
+      z-index: 22;
+    }
+
+    .year {
+      position: absolute;
+      top: 147px;
+      left: 50%;
+      width: 480px;
+      margin-left: -240px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      font-size: 42px;
+      font-weight: bolder;
+    }
+
+    .numbers {
+      height: 230px;
+      position: absolute;
+      top: 270px;
+      left: 0px;
+      width: 750px;
+      text-align: center;
+      font-size: 0;
+      padding-left: 30px;
+    }
+
+    .numbers .number {
+      display: inline-block;
+      text-align: center;
+      width: 140px;
+      margin: 0 10px;
+    }
+
+    .workday {
+      display: inline-block;
+      font-size: 28px;
+      vertical-align: bottom;
+      transform: translate(20px, 0px);
+      font-weight: 600;
+    }
+
+    .bigNum {
+      height: 230px;
+      width: auto;
+      display: inline-block;
+    }
+
+    .hms {
+      position: absolute;
+      top: 610px;
+      left: 38px;
+    }
+
+    .hmsItem {
+      width: 200px;
+      float: left;
+      margin-right: 36px;
+    }
+
+    .hmsItemLast {
+      margin-right: 0px;
+    }
+
+    .hmsTitle {
+      text-align: center;
+      font-size: 13px;
+      text-shadow: white 2px 2px 2px !important;
+    }
+
+    .littleNum {
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .littleNumleft,
+    .littleNumRight {
+      background: white;
+      display: block;
+      width: 96px;
+      height: 100px;
+      border-radius: 5px;
+      color: #de4849;
+      font-size: 65px;
+      text-align: center;
+      line-height: 100px;
+    }
+
+    .littleNumleft {
+      float: left;
+    }
+
+    .littleNumRight {
+      float: right;
+    }
+
+    .shortLine {
+      width: 62px;
+      height: 7px;
+      position: absolute;
+      bottom: 280px;
+      left: 50%;
+      margin-left: -31px;
+    }
+
+    .words {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      bottom: 180px;
+      font-size: 28px;
+      line-height: 40px;
+      color: #fff;
+    }
+
+    .bg {
+      width: 100%;
+      height: 100%;
+
+    }
+
+    .swiper-slide-active .bg {
+      animation: zoomIn 1.5s ease 0s 1 normal both;
+    }
+
+    .swiper-slide-active .logo {
+      animation: fadeInLeft 1s ease 0.5s 1 normal both;
+    }
+
+    .swiper-slide-active .year {
+      animation: puffIn 1s ease 1s 1 normal both;
+    }
+
+    .swiper-slide-active .words {
+      animation: fadeInUp 1s ease 1.4s 1 normal both;
+    }
+
+    .swiper-slide-active .numbers {
+      animation: zoomIn 1s ease 1.4s 1 normal both;
+    }
+
+    .bottowArrow {
+      width: 50px;
+      height: 40px;
+      position: absolute;
+      left: 50%;
+      margin-left: -23px;
+      bottom: 30px;
+      animation: start 1.5s infinite ease-in-out;
+      z-index: 8888;
+    }
+
+    .swiper-slide-active .shortLine {
+      animation: fadeInUp 2s ease 2s 1 normal both;
+
+    }
+
+    .music {
+      width: 60px;
+      height: 60px;
+      background: url("./static/img/music.svg") no-repeat center;
+      background-size: contain;
+      position: absolute;
+      right: 40px;
+      top: 40px;
+      z-index: 99999;
+    }
+
+    .music .line {
+      height: 60px;
+      width: 3px;
+      background: #fff;
+      transform: rotate(45deg) translate(20px, -20px);
+    }
+
+    .musicRote .line {
+      background: none;
+    }
+
+    .musicRote {
+      -webkit-animation: rotating 1.2s linear infinite;
+      animation: rotating 1.2s linear infinite;
+    }
+
+    audio:not([controls]) {
+      display: none;
+    }
+
+    audio {
+      width: 300px;
+      height: 32px;
+    }
+
+    audio {
+      height: 48px;
+    }
+  </style>
+  <script src="./static/js/swiper.min.js"></script>
+  <script src="./static/js/jquery-1.9.1.min.js"></script>
+  <script src="./static/js/common.js"></script>
+</head>
+
+<body>
+  <div class="swiper-container" style="visibility: hidden;position: relative">
+    <div class="music musicRote">
+      <div class="line"></div>
+      <audio id="music" loop src="./static/img/zhenxinyingxiong.mp3" autoplay preload></audio>
+    </div>
+    <img class="bottowArrow" src="./static/img/arrow.png">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img class="logo" src="./static/img/logo.png">
+        <img class="bg" src="./static/img/bg1.jpg">
+        <div src="" class="year" alt="" style="color: #6066af">2020年第一季度倒计时</div>
+        <div class="numbers" csrc="./static/img/num/1/" index="0">
+          <img class="bigNum" src="./static/img/num/1/1.png" alt="">
+        </div>
+        <div class="hms">
+          <div class="hmsItem">
+            <div class="hmsTitle">HOURS</div>
+            <div class="littleNum">
+              <span class="littleNumleft time0">0</span>
+              <span class="littleNumRight time1">0</span>
+            </div>
+          </div>
+          <div class="hmsItem">
+            <div class="hmsTitle">MINUTES</div>
+            <div class="littleNum">
+              <span class="littleNumleft time2">0</span>
+              <span class="littleNumRight time3">0</span>
+            </div>
+          </div>
+          <div class="hmsItem hmsItemLast">
+            <div class="hmsTitle">SECONDS</div>
+            <div class="littleNum">
+              <span class="littleNumleft  time4">0</span>
+              <span class="littleNumRight  time5">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="shortLine" style="background: #c4f7fb"></div>
+        <div class="words"></div>
+      </div>
+      <div class="swiper-slide">
+        <img class="logo" src="./static/img/logo.png">
+        <img class="bg" src="./static/img/bg2.jpg">
+        <div src="" class="year" alt="" style="color: #355cff">2020年第二季度倒计时</div>
+        <div class="numbers" csrc="./static/img/num/2/" index="1"></div>
+        <div class="hms">
+          <div class="hmsItem">
+            <div class="hmsTitle">HOURS</div>
+            <div class="littleNum">
+              <span class="littleNumleft time0">0</span>
+              <span class="littleNumRight time1">0</span>
+            </div>
+
+          </div>
+          <div class="hmsItem">
+            <div class="hmsTitle">MINUTES</div>
+            <div class="littleNum">
+              <span class="littleNumleft time2">0</span>
+              <span class="littleNumRight time3">0</span>
+            </div>
+
+          </div>
+          <div class="hmsItem hmsItemLast">
+            <div class="hmsTitle">SECONDS</div>
+            <div class="littleNum">
+              <span class="littleNumleft  time4">0</span>
+              <span class="littleNumRight  time5">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="shortLine" style="background: #fff84f"></div>
+        <div class="words" style="color:#365cff"></div>
+      </div>
+      <div class="swiper-slide">
+        <img class="logo" src="./static/img/logo.png">
+        <img class="bg" src="./static/img/bg3.jpg">
+        <div src="" class="year" alt="" style="color: #c53435">2020年第三季度倒计时</div>
+        <div class="numbers" csrc="./static/img/num/3/" index="2"></div>
+        <div class="hms">
+          <div class="hmsItem">
+            <div class="hmsTitle">HOURS</div>
+            <div class="littleNum">
+              <span class="littleNumleft time0">0</span>
+              <span class="littleNumRight time1">0</span>
+            </div>
+          </div>
+          <div class="hmsItem">
+            <div class="hmsTitle">MINUTES</div>
+            <div class="littleNum">
+              <span class="littleNumleft time2">0</span>
+              <span class="littleNumRight time3">0</span>
+            </div>
+          </div>
+          <div class="hmsItem hmsItemLast">
+            <div class="hmsTitle">SECONDS</div>
+            <div class="littleNum">
+              <span class="littleNumleft  time4">0</span>
+              <span class="littleNumRight  time5">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="shortLine" style="background: #fe4e42"></div>
+        <div class="words"></div>
+      </div>
+      <div class="swiper-slide">
+        <img class="logo" src="./static/img/logo.png">
+        <img class="bg" src="./static/img/bg4.jpg">
+        <div class="numbers" csrc="./static/img/num/4/" index="3"></div>
+        <div src="" class="year" alt="" style="color: #6788f1">2020年第四季度倒计时</div>
+        <div class="hms">
+          <div class="hmsItem">
+            <div class="hmsTitle">HOURS</div>
+            <div class="littleNum">
+              <span class="littleNumleft time0">0</span>
+              <span class="littleNumRight time1">0</span>
+            </div>
+          </div>
+          <div class="hmsItem">
+            <div class="hmsTitle">MINUTES</div>
+            <div class="littleNum">
+              <span class="littleNumleft time2">0</span>
+              <span class="littleNumRight time3">0</span>
+            </div>
+          </div>
+          <div class="hmsItem hmsItemLast">
+            <div class="hmsTitle">SECONDS</div>
+            <div class="littleNum">
+              <span class="littleNumleft  time4">0</span>
+              <span class="littleNumRight  time5">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="shortLine" style="background: #38c0f7"></div>
+        <div class="words"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 设置当天日期----页面展示的当前季度剩余工作日
+    var currentDate = new Date('2020/01/01 00:00:00');
+    var wordDatas = [
+      "成功是每一个环节都成功，事情做到极致才有机会！",
+      "遇到商机迅速反应马上行动，渐进就是守旧。",
+      "做草原上奔啸的狼，不做马戏团衣食无忧的老虎！",
+      "不满足于客户的认可，超越顾客期望，才是我们的成功！",
+      "知道不等于做到，做了不等于做好，做了是零分，做好才是100分！",
+      "把你脑袋里的思想放到客户的脑袋里，客户才会把口袋里的钱放到你的口袋。愚蠢的销售就是思想还没有放到客户脑袋之前就伸手去掏客户的口袋！",
+      "千斤重担人人挑，个个头上有指标。",
+      "找不到具体责任人不放过，找不到问题的原因不放过，找不到最佳解决方法不放过。",
+      "迎着晨风想一想，今天要往何方闯！踏着夕阳问一问，今日有无大长进。",
+      "企业所有投入都是成本，惟有落单才能实现利润。",
+      "不想当将军的士兵不是好士兵，当不好士兵的将军一定不是好将军。成功从优秀员工开始做起!竞争为王,适者生存,让我们从小团队的第一名开始做起!",
+      "生命因追求而精彩，追求因指引而成功，个体因团队而强大！",
+      "稳定市场，重在回访；开拓市场，加大拜访。",
+      "学技术，提供优质服务;讲高效，以行动让客户满意。",
+      "多见一个客户就多一个机会!",
+      "头狼--锁定进攻目标，制定作战计划，分配战斗任务，带头冲锋作战！",
+      "目标明确，挺进高峰；人人奋勇，个个争先！",
+      "计划已制定，马上就行动，效率结果就在大家手中!",
+      "凝心聚力，迎难而上，打好转型攻坚战。",
+      "激发动能，共创价值。",
+    ]
+    $(".words").each(function () {
+      $(this).html(wordDatas[Math.floor(Math.random() * wordDatas.length)])
+    })
+    //节假日天数
+    const holidays1 = [
+      '2020-01-04', '2020-01-05', '2020-01-11', '2020-01-12', '2020-01-18',
+      '2020-01-24', '2020-01-25', '2020-01-26', '2020-01-27', '2020-01-28',
+      '2020-01-29', '2020-01-30', '2020-01-31', '2020-02-01', '2020-02-02',
+      '2020-02-08', '2020-02-09', '2020-02-15', '2020-02-16', '2020-02-22',
+      '2020-02-23', '2020-02-29', '2020-03-01', '2020-03-07', '2020-03-08',
+      '2020-03-14', '2020-03-15', '2020-03-21', '2020-03-22', '2020-03-28',
+      '2020-03-29',
+    ]
+    const holidays2 = [
+      '2020-04-04', '2020-04-05', '2020-04-06', '2020-04-11', '2020-04-12',
+      '2020-04-18', '2020-04-19', '2020-04-25', '2020-05-01', '2020-05-02',
+      '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-10', '2020-05-16',
+      '2020-05-17', '2020-05-23', '2020-05-24', '2020-05-30', '2020-05-31',
+      '2020-06-06', '2020-06-07', '2020-06-13', '2020-06-14', '2020-06-20',
+      '2020-06-21', '2020-06-25', '2020-06-26', '2020-06-27',
+    ]
+    const holidays3 = [
+      '2020-07-04', '2020-07-05', '2020-07-11',
+      '2020-07-12', '2020-07-18', '2020-07-19', '2020-07-25', '2020-07-26',
+      '2020-08-01', '2020-08-02', '2020-08-08', '2020-08-09', '2020-08-15',
+      '2020-08-01', '2020-08-02', '2020-08-08', '2020-08-09', '2020-08-15',
+      '2020-08-16', '2020-08-22', '2020-08-23', '2020-08-29', '2020-08-30',
+      '2020-09-05', '2020-09-06', '2020-09-12', '2020-09-13', '2020-09-19',
+      '2020-09-20', '2020-09-26',
+    ]
+    const holidays4 = [
+      '2020-10-01', '2020-10-02', '2020-10-03', '2020-10-04', '2020-10-05',
+      '2020-10-06', '2020-10-07', '2020-10-08', '2020-10-11', '2020-10-17',
+      '2020-10-18', '2020-10-24', '2020-10-25', '2020-10-31', '2020-11-01',
+      '2020-11-07', '2020-11-08', '2020-11-14', '2020-11-15', '2020-11-21',
+      '2020-11-22', '2020-11-28', '2020-11-29', '2020-12-05', '2020-12-06',
+      '2020-12-12', '2020-12-13', '2020-12-19', '2020-12-20', '2020-12-26',
+      '2020-12-27',
+    ]
+    $(".music").click(function () {
+      var audio = document.getElementById('music')
+      if ($(this).hasClass("musicRote")) {
+        $(this).removeClass("musicRote")
+        audio.pause()
+      } else {
+        $(this).addClass("musicRote")
+        audio.play()
+      }
+    })
+    $(".music").click();
+    var winHeight = $(window).height();
+    var winWidth = $(window).width();
+    if (IsPC()) {
+      if (winWidth > 540) {
+        $("html").css("font-size", "37.5px")
+        $(".swiper-container").css("width", "375px").css("height", "617px").css("margin-top", (winHeight - 667) / 2).css("visibility", "visible")
+      }
+    }
+    $(".swiper-container").css("visibility", "visible")
+
+    //判断是否是PC端
+    function IsPC() {
+      var userAgentInfo = navigator.userAgent;
+      var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+      var flag = true;
+      for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+          flag = false;
+          break;
+        }
+      }
+      return flag;
+    }
+    createTime()
+    function createTime() {
+      let time = currentDate;
+      time = `${time.getFullYear()}-${time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1)}-${time.getDate() < 10 ? '0' + time.getDate() : time.getDate()}`;
+      console.log(time)
+      if ([...holidays1, ...holidays2, ...holidays3, ...holidays4].includes(time)) {
+        return;
+      }
+      setInterval(function () {
+        var date = currentDate;
+        var hours = 23 - date.getHours()
+        var minute = 59 - date.getMinutes()
+        var seconds = 60 - date.getSeconds()
+        var str = (hours < 10 ? ("0" + hours) : hours) + "" + (minute < 10 ? ("0" + minute) : minute) + "" + (seconds < 10 ? ("0" + seconds) : seconds)
+        var arr = str.split("");
+        for (var i = 0; i < arr.length; i++) {
+          $(".time" + i).html(arr[i])
+        }
+      }, 1000)
+    }
+    const endDateString = [
+      "2020-03-31",
+      "2020-06-30",
+      "2020-09-30",
+      "2020-12-31",
+    ];
+    function getDaysByDateString(index) {
+      switch (index) {
+        case "0": holidays = holidays1; break;
+        case "1": holidays = [...holidays1, ...holidays2]; break;
+        case "2": holidays = [...holidays1, ...holidays2, ...holidays3]; break;
+        case "3": holidays = [...holidays1, ...holidays2, ...holidays3, ...holidays4]; break;
+      }
+      var startDate = currentDate;
+      var shengholidays = ""
+      for (var y = 0; y < holidays.length; y++) {
+        var time = Date.parse(holidays[y].replace('/-/g', '/'));
+        if (startDate.getTime() < time) {
+          shengholidays = holidays.length - y;
+          break;
+        }
+      }
+      var endDate = Date.parse(endDateString[index].replace('/-/g', '/')) - 8 * 3600 * 1000;
+      var diffDate = (endDate - startDate);
+      var days = diffDate / (1 * 24 * 60 * 60 * 1000) + 1;
+      // console.log(endDateString[index], days, shengholidays,  Math.floor(days - shengholidays))
+      return Math.floor(days - shengholidays);
+    }
+    var colors = ["#BAF8FF", "#0A95DA", "#8D7BD3", "#15E8FB",]
+
+    $(".swiper-wrapper").find(".swiper-slide").each(function () {
+      var str = ""
+      var src = $(this).find(".numbers").attr("csrc")
+      var index = $(this).find(".numbers").attr("index")
+      var totalDays = getDaysByDateString(index);
+      if (totalDays > 0) {
+        totalDays = totalDays.toString().split("");
+        for (var i = 0; i < totalDays.length; i++) {
+          str += '<span class="number"><img class="bigNum" src="' + src + totalDays[i] + '.png" ></span>'
+        }
+        str += '<span class="workday" style="color: ' + colors[index] + '">工作日</span>';
+        $(this).find(".numbers").html(str)
+      } else {
+        $(`div[index=${index}]`).each(function () {
+          $(this).parent(".swiper-slide").remove();
+        })
+      }
+    })
+    var mySwiper = new Swiper('.swiper-container', {
+      direction: 'vertical', // 垂直切换选项
+      loop: true, // 循环模式选项
+
+    })
+  </script>
+</body>
+
+</html>
