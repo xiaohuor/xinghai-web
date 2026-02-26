@@ -1,1 +1,0 @@
-import{_ as t}from"./index-CRCuvX_o.js";import{o as r,c,a as o}from"./vue-vendor-9zi0vjoB.js";import"./element-plus-DNt3tQhO.js";import"./icons-DEBH0u7C.js";const n={},s={class:"life-container"};function a(i,e){return r(),c("div",s,[...e[0]||(e[0]=[o("h2",null,"Life",-1),o("p",null,"这里是生活页面",-1)])])}const p=t(n,[["render",a],["__scopeId","data-v-c6d8fcda"]]);export{p as default};
