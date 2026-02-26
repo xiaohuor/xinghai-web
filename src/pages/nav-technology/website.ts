@@ -183,7 +183,7 @@ export default
       },
       {
         "title": "张鑫旭",
-        "icon": "https://cdn.zhangxinxu.com/zxx_ico.png",
+        "icon": "https://www.zhangxinxu.com/favicon.ico",
         "url": "https://www.zhangxinxu.com/",
         "comment": "2009年华中科技大学毕业，现居上海，就职于阅文集团，专注web前端偏前领域，著有《CSS世界》《CSS选择器世界》。"
       }
