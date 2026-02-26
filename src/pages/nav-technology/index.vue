@@ -124,7 +124,11 @@ const getIconUrl = (icon: string) => {
     // Assuming icons are in public/image/website-logo/...
     // If the path in JSON is 'image/website-logo/foo.png'
     const cleanPath = icon.startsWith('/') ? icon.slice(1) : icon
-    return `/${cleanPath}`
+    // Handle path relative to public directory in Vite
+    // import.meta.env.BASE_URL is usually './' or '/'
+    const baseUrl = import.meta.env.BASE_URL
+    const finalUrl = baseUrl.endsWith('/') ? baseUrl + cleanPath : baseUrl + '/' + cleanPath
+    return finalUrl
   } catch (e) {
     return icon
   }
