@@ -124,7 +124,7 @@ const getIconUrl = (icon: string) => {
     // Assuming icons are in public/image/website-logo/...
     // If the path in JSON is 'image/website-logo/foo.png'
     const cleanPath = icon.startsWith('/') ? icon.slice(1) : icon
-    const finalUrl = import.meta.env.DEV ? `/${cleanPath}` : `https://xiaohuor.github.io/xinghai-web/${cleanPath}`
+    const finalUrl = import.meta.env.DEV ? `/${cleanPath}` : `${import.meta.env.VITE_BASE_URL}/${cleanPath}`
     return finalUrl
   } catch (e) {
     return icon

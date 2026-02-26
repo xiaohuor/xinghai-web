@@ -58,7 +58,7 @@
 import { ref } from 'vue'
 import { Collection, Iphone, ChromeFilled, Platform, ArrowRight } from '@element-plus/icons-vue'
 
-const baseUrl = "https://xiaohuor.github.io/xinghai-web";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const list1 = ref([
   {
