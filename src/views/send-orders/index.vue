@@ -163,6 +163,8 @@ margin-top: 41px;
 
 .page-container {
   height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 65%, #D1ECFF 100%);
 
   .audit-tabs {

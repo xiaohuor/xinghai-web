@@ -51,7 +51,7 @@
 </template>
 <script setup>
 import dayjs from 'dayjs';
-import { Cell as EcEntryCell, showDialog, ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
+import { Cell as EcEntryCell, showDialog, ActionBar as EcActionBar, Button as EcButton, showImagePreview } from 'vant';
 import { showSuccessToast, showFailToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, onMounted } from 'vue';
 import { defineEmits } from 'vue';
@@ -295,7 +295,7 @@ const handleSubmit = async () => {
   }
 };
 const handlePreview = (imgUrl) => {
-  ImagePreview({
+  showImagePreview({
     images: [imgUrl],
     showIndex: false,
     className: 'custom-image-preview'
@@ -325,8 +325,7 @@ onMounted(async () => {
     margin-bottom: 12px;
     padding: 0 16px;
     position: absolute;
-    left: 0;
-    top: 0;
+    inset: 0;
     // height: calc(100vh - 224px); // 底部留白145px + 顶部按钮栏43px + 顶部按钮栏边距24px + 顶部留白12px = 224px
     overflow: auto;
     z-index: 1;
@@ -343,7 +342,7 @@ onMounted(async () => {
     }
 
     .image-wrapper {
-      width: calc(100vw - 32px);
+      width: 100%;
       // max-height: calc(100vh - 325px);
       height: 350px;
       display: block;

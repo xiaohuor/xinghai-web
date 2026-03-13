@@ -52,7 +52,7 @@
 </template>
 <script setup>
 import dayjs from 'dayjs';
-import { ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
+import { ActionBar as EcActionBar, Button as EcButton, showImagePreview } from 'vant';
 import { showSuccessToast, showFailToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, reactive, computed } from 'vue';
 import { defineEmits } from 'vue';
@@ -209,7 +209,7 @@ const touchend = (e) => {
   state.distanceX = 0;
 };
 const handlePreview = (imgUrl) => {
-  ImagePreview({
+  showImagePreview({
     images: [imgUrl],
     showIndex: false,
     className: 'custom-image-preview'
@@ -225,8 +225,7 @@ const handleClose = (reviewResult) => {
 .modify-page {
   padding-top: 12px;
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   background: #fff;
@@ -238,6 +237,7 @@ const handleClose = (reviewResult) => {
   flex-direction: column;
   // height: calc(100vh - 67px);
   max-width: 600px;
+  margin: 0 auto;
 
   .image-list {
     flex: 1;
@@ -255,8 +255,7 @@ const handleClose = (reviewResult) => {
     // margin-bottom: 12px;
     padding: 0 16px;
     position: absolute;
-    left: 0;
-    top: 0;
+    inset: 0;
     // height: calc(100vh - 177px); // 底部留白145px + 顶部留白12px = 157px
     overflow: auto;
     z-index: 1;
@@ -277,7 +276,7 @@ const handleClose = (reviewResult) => {
     }
 
     .image-wrapper {
-      width: calc(100vw - 32px);
+      width: 100%;
       // height: calc(100vh - 325px);
       height: 350px;
       display: block;

@@ -5,22 +5,23 @@
         <!-- Section 1: Common Sites -->
         <div class="flex-col">
           <div class="section-header">
-            <el-icon class="section-icon" color="#409eff"><Collection /></el-icon>
+            <el-icon class="section-icon" color="#409eff">
+              <Collection />
+            </el-icon>
             <span class="section-title">常用网站</span>
           </div>
           <el-card shadow="hover" class="link-card">
             <ul class="link-list">
-              <li
-                v-for="(item, index) in list1"
-                :key="index"
-                @click="openWindow(item.url)"
-                class="list-item"
-              >
+              <li v-for="(item, index) in list1" :key="index" @click="openWindow(item.url)" class="list-item">
                 <div class="item-content">
-                  <el-icon class="item-icon" :size="20" color="#67C23A"><ChromeFilled /></el-icon>
-                  <span class="item-title">{{item.title}}</span>
+                  <el-icon class="item-icon" :size="20" color="#67C23A">
+                    <ChromeFilled />
+                  </el-icon>
+                  <span class="item-title">{{ item.title }}</span>
                 </div>
-                <el-icon class="arrow-icon"><ArrowRight /></el-icon>
+                <el-icon class="arrow-icon">
+                  <ArrowRight />
+                </el-icon>
               </li>
             </ul>
           </el-card>
@@ -29,22 +30,23 @@
         <!-- Section 2: H5 Apps -->
         <div class="flex-col">
           <div class="section-header">
-            <el-icon class="section-icon" color="#e6a23c"><Iphone /></el-icon>
+            <el-icon class="section-icon" color="#e6a23c">
+              <Iphone />
+            </el-icon>
             <span class="section-title">应用列表</span>
           </div>
           <el-card shadow="hover" class="link-card">
             <ul class="link-list">
-              <li
-                v-for="(item, index) in list2"
-                :key="index"
-                @click="openWindow(item.url)"
-                class="list-item"
-              >
+              <li v-for="(item, index) in list2" :key="index" @click="openWindow(item.url)" class="list-item">
                 <div class="item-content">
-                  <el-icon class="item-icon" :size="20" color="#409EFF"><Platform /></el-icon>
-                  <span class="item-title">{{item.title}}</span>
+                  <el-icon class="item-icon" :size="20" color="#409EFF">
+                    <Platform />
+                  </el-icon>
+                  <span class="item-title">{{ item.title }}</span>
                 </div>
-                <el-icon class="arrow-icon"><ArrowRight /></el-icon>
+                <el-icon class="arrow-icon">
+                  <ArrowRight />
+                </el-icon>
               </li>
             </ul>
           </el-card>
@@ -91,12 +93,18 @@ const list2 = ref([
   {
     title: "6%",
     url: baseUrl + "/h5/6-percents/"
-  },{
+  }, 
+  {
     title: "思睿康药量变化和网购行为关系",
     url: baseUrl + "/h5/charts-heyue/"
-  },{
+  }, 
+  {
     title: "个人简历",
     url: baseUrl + "/h5/resume/"
+  },
+  {
+    title: "二分类专家审核-ecej",
+    url: baseUrl + "#/task-list"
   },
 ]);
 
@@ -114,7 +122,7 @@ const openWindow = (url: string) => {
   flex-direction: column;
   background-color: #f5f7fa;
   /* Remove overflow from container, let content wrapper handle it or fit within */
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .content-wrapper {
@@ -123,7 +131,8 @@ const openWindow = (url: string) => {
   margin: 0 auto;
   padding: 40px 20px;
   flex: 1;
-  overflow-y: auto; /* Scroll here if content overflows */
+  overflow-y: auto;
+  /* Scroll here if content overflows */
 }
 
 .flex-row {
@@ -134,7 +143,8 @@ const openWindow = (url: string) => {
 
 .flex-col {
   flex: 1;
-  min-width: 300px; /* Responsive behavior */
+  min-width: 300px;
+  /* Responsive behavior */
   display: flex;
   flex-direction: column;
 }
@@ -144,12 +154,12 @@ const openWindow = (url: string) => {
   align-items: center;
   margin-bottom: 20px;
   padding-left: 10px;
-  
+
   .section-icon {
     margin-right: 10px;
     font-size: 24px;
   }
-  
+
   .section-title {
     font-size: 20px;
     font-weight: 600;
@@ -161,11 +171,11 @@ const openWindow = (url: string) => {
   border-radius: 12px;
   border: none;
   transition: transform 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
   }
-  
+
   :deep(.el-card__body) {
     padding: 0;
   }
@@ -185,19 +195,19 @@ const openWindow = (url: string) => {
   align-items: center;
   justify-content: space-between;
   transition: all 0.2s ease;
-  
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   &:hover {
     background-color: #ecf5ff;
     padding-left: 30px; // Subtle shift effect
-    
+
     .item-title {
       color: #409eff;
     }
-    
+
     .arrow-icon {
       opacity: 1;
       transform: translateX(5px);
