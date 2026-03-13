@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { Icon as EcIcon, showToast } from 'vant';
+import { Icon as EcIcon, showFailToast, showSuccessToast } from 'vant';
 // import { AliyunSpeechTranscription } from '@enn/voice-assistant-client';
 import SelectPopup from './SelectPopup.vue';
 const { AliyunSpeechTranscription } = window;
@@ -78,7 +78,7 @@ const handleOpened = () => {
 }
 const handleSubmit = () => {
   if (textarea.value.trim() === '') {
-    return showToast.fail('请输入描述');
+    return showFailToast('请输入描述');
   }
   emit('update', textarea.value);
   if (!storageArr.value.includes(textarea.value)) {
@@ -95,14 +95,14 @@ const handleImport = () => {
     textarea.value = storageArr.value[0];
     showLast.value = false;
   } else {
-    showToast.fail('暂无上次描述');
+    showFailToast('暂无上次描述');
   }
 }
 const handleImportMore = () => {
   if(storageArr.value.length) {
     selectVisible.value = true;
   } else {
-    showToast.fail('暂无可引用描述');
+    showFailToast('暂无可引用描述');
   }
 }
 
@@ -143,12 +143,12 @@ async function startRecording() {
       setupEventListeners();
     }
 
-    // showToast.success('开始录音，请说话');
+    // showSuccessToast('开始录音，请说话');
     isRecording.value = true;
     await aliyunSpeechTranscription.start();
   } catch (error) {
     console.error('开始录音失败:', error);
-    // showToast.fail('麦克风权限被拒绝或录音失败');
+    // showFailToast('麦克风权限被拒绝或录音失败');
     isRecording.value = false;
   }
 }
@@ -161,7 +161,7 @@ async function stopRecording() {
       // showToast('录音已结束');
     } catch (error) {
       console.error('停止录音失败:', error);
-      // showToast.fail('停止录音失败');
+      // showFailToast('停止录音失败');
       isRecording.value = false;
     }
   }
@@ -214,14 +214,14 @@ function setupEventListeners() {
   // 服务失败
   aliyunSpeechTranscription.on('failed', (error) => {
     console.error('语音服务错误:', error);
-    showToast.fail('语音识别服务失败');
+    showFailToast('语音识别服务失败');
     isRecording.value = false;
   });
 
   // WebSocket错误
   aliyunSpeechTranscription.on('error', (error) => {
     console.error('WebSocket连接错误:', error);
-    showToast.fail('连接语音服务失败');
+    showFailToast('连接语音服务失败');
     isRecording.value = false;
   });
 }

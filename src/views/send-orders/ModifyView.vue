@@ -53,7 +53,7 @@
 <script setup>
 import dayjs from 'dayjs';
 import { ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
-import { showToast, RadioGroup, Radio } from 'vant';
+import { showSuccessToast, showFailToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, reactive, computed } from 'vue';
 import { defineEmits } from 'vue';
 import InputPopup from './InputPopupPlus.vue';
@@ -160,8 +160,8 @@ const handleSubmit = async () => {
   }).catch(() => ({}));
 
   loading.value = false;
-  if (code !== '0') return showToast.fail(message || '审核修改失败');
-  showToast.success(message || '审核修改成功');
+  if (code !== '0') return showFailToast(message || '审核修改失败');
+  showSuccessToast(message || '审核修改成功');
   currentData.value.reviewResult = reviewResult.value;
   emit('close');
 };

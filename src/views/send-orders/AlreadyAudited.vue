@@ -33,7 +33,7 @@
 <script setup>
 import { ref, reactive, onMounted, defineEmits } from 'vue';
 import ModifyView from './ModifyView.vue'
-import { showToast, RadioGroup, Radio } from 'vant';
+import { showFailToast, RadioGroup, Radio } from 'vant';
 
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
@@ -70,7 +70,7 @@ const getImageList = async (isLoadMore = false) => {
 
     loading.value = false;
     if (!success) {
-      showToast.fail('查询图片审核分页列表失败');
+      showFailToast('查询图片审核分页列表失败');
       return
     }
 
