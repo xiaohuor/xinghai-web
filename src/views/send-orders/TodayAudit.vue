@@ -1,8 +1,5 @@
 <template>
   <div class="audit-page">
-    <!-- <div v-if="wancheng">
-      <ec-empty-msg style="margin-top: 20vh;" title="图片审核完毕" description="请点击【完成任务】进行最终确认"> </ec-empty-msg>
-    </div> -->
     <div class="image-list">
       <div v-for="(item, index) in imgList" :key="item.id" class="image-card"
         :class="{ 'active': currentIndex === index }">
@@ -11,83 +8,37 @@
             :class="{ 'full': item.aspectRatio > 0 && item.aspectRatio < 0.5 }" />
         </div>
 
-        <div class="danger-desc" v-if="item.field2">
-          <div class="desc-label">
-            <div class="label-text">
-              隐患类型
-              <img src="@/assets/img-ecej/icon-danger.png" alt="" class="desc-icon">
-            </div>
-          </div>
-          <div class="desc-content">
-            {{ item.field2 }}
-          </div>
+        <AuditCardContent
+          :item="item"
+          :reviewDesc="reviewDesc"
+          @edit="handleEdit"
+          @showTip="tipVisible = true"
+        />
 
-          <div class="danger-standard">
-            <div class="desc-label">
-              <div class="label-text">隐患判断标准</div>
-              <div class="edit-action" @click="handleEdit('suggestion')">
-                <img src="@/assets/img-ecej/icon-edit.png" alt="" class="edit-icon">
-                标准优化建议
-              </div>
-            </div>
-            <div class="sub-title">
-
-              <div>请根据<span class="highlight">本标准</span>进行审核</div>
-              <img src="@/assets/img-ecej/icon-info.png" alt="" class="info-icon" @click="tipVisible = true;">
-            </div>
-            <div class="desc-content">
-              {{ item.field3 }}
-            </div>
-          </div>
-        </div>
-
-        <div class="danger-desc" v-if="reviewDesc" style="margin-bottom: 12px;">
-          <div class="desc-label">
-            <div class="label-text">其他隐患</div>
-            <div class="edit-action" @click="handleEdit('danger')">
-              <img src="@/assets/img-ecej/icon-edit.png" alt="" class="edit-icon">
-              编辑
-            </div>
-            <!-- <img src="@/assets/img-ecej/icon-danger.png" alt="" class="desc-icon"> -->
-          </div>
-          <div class="desc-content">
-            {{ reviewDesc }}
-            <!-- <ec-icon name="edit" size="20px" /> -->
-          </div>
-        </div>
         <div style="height: 12px;width: 100%;"></div>
       </div>
     </div>
     <ec-action-bar class="bottom-bar">
       <div class="action-bar-content">
-        <!-- <span>请选择照片内容是否正确</span> -->
         <span v-if="!wancheng">
           图片中是否存在上述隐患
           <i class="ec-text-input__label--required" style="margin-left: -8px;"></i>
         </span>
-        <!-- <ec-filter-cell v-if="!wancheng" multiple :list="statusList" v-model="reviewResult1"
-          @change="handleChange"></ec-filter-cell> -->
 
         <van-radio-group v-model="reviewResult1" @change="handleChange">
-          <!-- <van-radio name="1">单选框 1</van-radio> -->
           <van-radio v-for="item in statusList" :key="item.value" :name="item.value" :label="item.value">{{ item.text
             }}</van-radio>
         </van-radio-group>
       </div>
 
       <div class="action-bar-btn">
-        <!-- <ec-button type="default" text="上一张" class="pre-button" @click="currentIndex--" /> -->
         <ec-button v-if="!wancheng" type="primary" :text="loading ? '切换中...' : '提交并切换下一张'" class="submit-button"
           :disabled="loading || !reviewResult" @click="handleSubmit" />
         <ec-button v-else type="primary" text="完成任务" class="submit-button1" @click="onClickConfirm" />
-
-
       </div>
 
     </ec-action-bar>
 
-    <!-- <InputPopup :visible="inputVisible1" :inputVal="reviewDesc" @close="inputVisible1 = false" @update="reviewDesc = val"
-      @clear="reviewResult1 = []" /> -->
     <InputPopup :visible="inputVisible1" :inputVal="reviewDesc" localStorageKey="danger_input"
       @close="inputVisible1 = false" @update="val => handleUpdate('danger', val)" @clear="reviewResult1 = []" />
     <InputPopup :visible="inputVisible2" :inputVal="suggestion" localStorageKey="suggestion_input"
@@ -102,10 +53,9 @@ import { Cell as EcEntryCell, showDialog, ActionBar as EcActionBar, Button as Ec
 import { showToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, onMounted } from 'vue';
 import { defineEmits } from 'vue';
-// import { getImageReviewPage, updateImageReview, updateImageReviewTaskStatus } from '@/api/audit-binary.js'
-// import InputPopup from './InputPopup.vue';
 import InputPopup from './InputPopupPlus.vue';
 import TipPopup from './TipPopup.vue';
+import AuditCardContent from './AuditCardContent.vue';
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const emit = defineEmits(['updateCount', 'initCount']);
@@ -143,13 +93,10 @@ const onClickConfirm = async () => {
 
 // reviewResult 审核结果，0-待审核 1-通过 2-驳回 3-超时未审核 4-待派单
 const statusList = ref([
-  // { text: '正确', value: '1' },
-  // { text: '错误', value: '2' },
   { text: '有隐患', value: '1' },
   { text: '无隐患', value: '2' },
   { text: '无法判断', value: '3' },
   { text: '其他', value: '4' },
-
 ]);
 const inputVisible1 = ref(false);
 const inputVisible2 = ref(false);
@@ -300,10 +247,6 @@ const handleSubmit = async () => {
 
   loading.value = true;
   const data = imgList.value[currentIndex.value];
-  // const obj3 = data._busContentObj.find(item => item.type == 3) || {};
-  // obj3.mark_name = reviewResult.value;
-  // const obj4 = data._busContentObj.find(item => item.type == 4) || {};
-  // obj4.mark_name = suggestion.value;
 
   const { code, message } = await updateImageReview({
     id: data.id,
@@ -312,7 +255,6 @@ const handleSubmit = async () => {
     reviewResult: reviewResult.value,
     reviewDesc: reviewDesc.value,
     reviewTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    // busContentObj: JSON.stringify(data._busContentObj),
     standardSuggest: suggestion.value,
   }).catch(() => ({}));
 
@@ -346,9 +288,6 @@ const handlePreview = (imgUrl) => {
   });
 }
 onMounted(async () => {
-  // if(!accountId) {
-  //   accountId = await window.authSDK.getUserInfo().then(res => res.userId).catch(() => '');
-  // }
   getImageList();
 })
 </script>
@@ -491,178 +430,6 @@ onMounted(async () => {
       background-color: #01C2C3;
       border: none;
       // width: 100%;
-    }
-
-  }
-}
-
-.finished-view {
-  width: 100vw;
-  height: 100vh;
-  background: #fff;
-  // position: absolute;
-  // z-index: 100;
-  // left: 0;
-  // top: 0;
-  display: block;
-
-  &.hidden {
-    display: none;
-  }
-
-  .finished-text {
-    width: 240px;
-    text-align: center;
-    position: absolute;
-    top: 25vh;
-    left: 50%;
-    transform: translateX(-50%);
-    $circleSize: 27px;
-
-    // margin-bottom: 30px;
-    .num {
-      font-family: 'NumberFont';
-      font-size: 100px;
-      line-height: 100px;
-      font-weight: 600;
-      color: #01C2C3;
-      position: relative;
-      margin-left: $circleSize;
-    }
-
-    .text {
-      font-size: 20px;
-      color: #1C1C1E;
-    }
-
-    .arrow-circle {
-      width: $circleSize;
-      position: relative;
-      top: 10px;
-      vertical-align: top;
-    }
-  }
-
-  .empty-item {
-    width: 240px;
-    text-align: center;
-    position: absolute;
-    top: 25vh;
-    left: 50%;
-    transform: translateX(-50%);
-
-    .empty-icon {
-      width: 120px;
-      height: 120px;
-    }
-
-    .empty-tips {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.5);
-    }
-  }
-}
-
-.danger-desc {
-  margin-top: 12px;
-  padding: 10px 12px;
-  background: rgba(1, 194, 195, 0.12);
-  border-radius: 6px;
-
-  .edit-action {
-    font-weight: 400;
-    font-size: 12px;
-    color: #01C2C3;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
-
-    .edit-icon {
-      margin-right: 4px;
-      height: 10px;
-      width: 10px;
-    }
-  }
-
-  .desc-label {
-    display: flex;
-    align-items: center;
-    // gap: 6px;
-    justify-content: space-between;
-
-    .label-text {
-      font-weight: 500;
-      font-size: 14px;
-      color: rgba(24, 31, 67, 0.8);
-      line-height: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .desc-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  .desc-content {
-    margin-top: 4px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #01C2C3;
-    line-height: 20px;
-  }
-
-  .danger-standard {
-    margin-top: 12px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 6px;
-
-    .desc-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .label-text {
-        font-weight: 500;
-        font-size: 12px;
-        color: rgba(24, 31, 67, 0.8);
-        line-height: 18px;
-      }
-
-
-    }
-
-    .sub-title {
-      font-weight: 400;
-      font-size: 12px;
-      color: rgba(24, 31, 67, 0.7);
-      line-height: 18px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      padding-bottom: 8px;
-      display: flex;
-      align-items: center;
-
-      .highlight {
-        color: #01C2C3;
-      }
-
-      .info-icon {
-        width: 10px;
-        height: 10px;
-        margin-left: 6px;
-      }
-    }
-
-    .desc-content {
-      margin-top: 6px;
-      font-weight: 400;
-      font-size: 12px;
-      color: rgba(24, 31, 67, 0.7);
-      line-height: 20px;
-      white-space: pre-wrap;
     }
 
   }

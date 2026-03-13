@@ -7,49 +7,13 @@
           <img alt="" :src="item.imgUrl" class="base-img"></img>
         </div>
 
-        <div class="danger-desc" v-if="item.field2">
-          <div class="desc-label">
-            <div class="label-text">
-              隐患类型
-              <img src="@/assets/img-ecej/icon-danger.png" alt="" class="desc-icon">
-            </div>
-          </div>
-          <div class="desc-content">
-            {{ item.field2 }}
-          </div>
-
-          <div class="danger-standard">
-            <div class="desc-label">
-              <div class="label-text">隐患判断标准</div>
-              <div class="edit-action" @click="handleEdit('suggestion')">
-                <img src="@/assets/img-ecej/icon-edit.png" alt="" class="edit-icon">
-                标准优化建议
-              </div>
-            </div>
-            <div class="sub-title">
-
-              <div>请根据<span class="highlight">本标准</span>进行审核</div>
-              <img src="@/assets/img-ecej/icon-info.png" alt="" class="info-icon" @click="tipVisible = true;">
-            </div>
-            <div class="desc-content">
-              {{ item.field3 }}
-            </div>
-          </div>
-        </div>
-
-        <div class="danger-desc" v-if="item.reviewDesc" @click="inputVisible1 = true;" style="margin-bottom: 12px;">
-          <div class="desc-label">
-            <div class="label-text">其他隐患</div>
-            <div class="edit-action" @click="handleEdit('danger')">
-              <img src="@/assets/img-ecej/icon-edit.png" alt="" class="edit-icon">
-              编辑
-            </div>
-          </div>
-          <div class="desc-content">
-            {{ item.reviewDesc }}
-          </div>
-        </div>
-        <!-- <div style="height: 12px;width: 100%;"></div> -->
+        <AuditCardContent
+          :item="item"
+          :reviewDesc="item.reviewDesc"
+          @edit="handleEdit"
+          @showTip="tipVisible = true"
+          @clickDesc="inputVisible1 = true"
+        />
       </div>
     </div>
     <ec-action-bar class="bottom-bar" v-if="disabled">
@@ -66,10 +30,7 @@
       <div class="action-bar-content">
         <span>图片中是否存在上述隐患</span>
         <i class="ec-text-input__label--required" style="margin-left: -8px;"></i>
-        <!-- <ec-filter-cell clearable :list="statusList" v-model="reviewResult" @change="handleChange"></ec-filter-cell> -->
         <van-radio-group v-model="reviewResult" @change="handleChange">
-          <!-- <van-radio name="1">单选框 1</van-radio> -->
-          <!-- <van-radio name="2">单选框 2</van-radio> -->
           <van-radio v-for="item in statusList" :key="item.value" :name="item.value" :label="item.value">{{ item.text
             }}</van-radio>
 
@@ -86,6 +47,7 @@
       @close="inputVisible1 = false" @update="currentData.reviewDesc = $event" @clear="() => { }" />
     <InputPopup :visible="inputVisible2" :inputVal="currentData.standardSuggest" localStorageKey="suggestion_input"
       @close="inputVisible2 = false" @update="currentData.standardSuggest = $event" @clear="() => { }" />
+    <TipPopup :visible="tipVisible" @close="tipVisible = false" />
   </div>
 </template>
 <script setup>
@@ -93,9 +55,10 @@ import dayjs from 'dayjs';
 import { ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
 import { showToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, reactive, computed } from 'vue';
-// import { updateImageReview } from '@/api/audit-binary.js'
 import { defineEmits } from 'vue';
 import InputPopup from './InputPopupPlus.vue';
+import TipPopup from './TipPopup.vue';
+import AuditCardContent from './AuditCardContent.vue';
 import { useRoute } from 'vue-router'
 const emit = defineEmits(['close']);
 const props = defineProps({
@@ -126,6 +89,7 @@ const inputVisible2 = ref(false);
 const suggestion = ref('');
 const editing = ref(false);
 const currentIndex = ref(-1);
+const tipVisible = ref(false);
 const route = useRoute()
 const currentData = computed(() => props.imgList[currentIndex.value] || {});
 console.log(currentData.value, '???');
@@ -170,19 +134,9 @@ const handleEdit = (type) => {
 }
 const handleUpdate = (type, val) => {
   console.log(type, val);
-  if (type == 'danger') {
-    // reviewDesc.value = val;
-  } else if (type == 'suggestion') {
-    // suggestion.value = val;
-    // let obj4 = currentData.value._busContentObj.find(item => item.type == 4);
-    // obj4.mark_name = val;
-    // currentData.value.field4 = val;
-  }
 }
 
 const statusList = ref([
-  // { text: '正确', value: '1' },
-  // { text: '错误', value: '2' },
   { text: '有隐患', value: '1' },
   { text: '无隐患', value: '2' },
   { text: '无法判断', value: '3' },
@@ -203,7 +157,6 @@ const handleSubmit = async () => {
     reviewDesc: currentData.value.reviewDesc,
     standardSuggest: currentData.value.standardSuggest,
     reviewTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    //  busContentObj: JSON.stringify(data._busContentObj),
   }).catch(() => ({}));
 
   loading.value = false;
@@ -261,6 +214,10 @@ const handlePreview = (imgUrl) => {
     showIndex: false,
     className: 'custom-image-preview'
   });
+}
+
+const handleClose = (reviewResult) => {
+  emit('close');
 }
 
 </script>
@@ -410,111 +367,6 @@ const handlePreview = (imgUrl) => {
       background-color: #01C2C3;
       border: none;
       // width: 100%;
-    }
-
-  }
-}
-
-.danger-desc {
-  margin-top: 12px;
-  padding: 10px 12px;
-  background: rgba(1, 194, 195, 0.12);
-  border-radius: 6px;
-
-  .edit-action {
-    font-weight: 400;
-    font-size: 12px;
-    color: #01C2C3;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
-
-    .edit-icon {
-      margin-right: 4px;
-      height: 10px;
-      width: 10px;
-    }
-  }
-
-  .desc-label {
-    display: flex;
-    align-items: center;
-    // gap: 6px;
-    justify-content: space-between;
-
-    .label-text {
-      font-weight: 500;
-      font-size: 14px;
-      color: rgba(24, 31, 67, 0.8);
-      line-height: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .desc-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  .desc-content {
-    margin-top: 4px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #01C2C3;
-    line-height: 20px;
-  }
-
-  .danger-standard {
-    margin-top: 12px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 6px;
-
-    .desc-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .label-text {
-        font-weight: 500;
-        font-size: 12px;
-        color: rgba(24, 31, 67, 0.8);
-        line-height: 18px;
-      }
-
-
-    }
-
-    .sub-title {
-      font-weight: 400;
-      font-size: 12px;
-      color: rgba(24, 31, 67, 0.7);
-      line-height: 18px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      padding-bottom: 8px;
-      display: flex;
-      align-items: center;
-
-      .highlight {
-        color: #01C2C3;
-      }
-
-      .info-icon {
-        width: 10px;
-        height: 10px;
-        margin-left: 6px;
-      }
-    }
-
-    .desc-content {
-      margin-top: 6px;
-      font-weight: 400;
-      font-size: 12px;
-      color: rgba(24, 31, 67, 0.7);
-      line-height: 20px;
-      white-space: pre-wrap;
     }
 
   }

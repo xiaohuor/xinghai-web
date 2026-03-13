@@ -33,7 +33,6 @@
 <script setup>
 import { ref, reactive, onMounted, defineEmits } from 'vue';
 import ModifyView from './ModifyView.vue'
-// import { getImageReviewPage } from '@/api/audit-binary.js'
 import { showToast, RadioGroup, Radio } from 'vant';
 
 import { useRoute } from 'vue-router'
@@ -57,14 +56,6 @@ const getImageList = async (isLoadMore = false) => {
 
   loading.value = true;
 
-  // const { data, success, totalCount } = await getImageReviewPage({
-  //   pageNum: isLoadMore ? pageNum.value : 1,
-  //   pageSize: pageSize.value,
-  //   demandId: route.query.demandId,
-  //   reviewerId: accountId.value,
-  //   reviewResult: '1,2,3,4',
-  // }).catch(() => ({}));
-  
   import('@/mock/send-orders.json').then((module) => {
     const res = module.default
     let result = res.d1_1 // 默认
@@ -111,10 +102,7 @@ const getImageList = async (isLoadMore = false) => {
 };
 
 // 页面加载时获取第一页数据
-onMounted( async () => {
-  // if(!accountId.value) {
-  //   accountId.value = await window.authSDK.getUserInfo().then(res => res.userId).catch(() => '');
-  // }
+onMounted(async () => {
   getImageList();
 });
 
@@ -128,12 +116,6 @@ const visible = ref(false);
 const currentIndex = ref(-1);
 const handleClose = (reviewResult) => {
   visible.value = false;
-  // if (reviewResult) {
-  //   modifyData.value.reviewResult = reviewResult;
-  //   if (currentIndex.value !== -1) {
-  //     imgList.value[currentIndex.value] = modifyData.value;
-  //   }
-  // }
 }
 const handleClick = (index) => {
   visible.value = true;

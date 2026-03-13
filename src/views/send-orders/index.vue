@@ -159,56 +159,6 @@ justify-content: center;
 margin-top: 41px;
    }
   }
-.guide-view {
-  width: 100vw;
-  height: 100vh;
-  background: url('@/assets/img-ecej/guide-bg.png') no-repeat;
-  background-size: 100% 100%;
-  transition: all 0.3s ease-in;
-  position: absolute;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  opacity: 1;
-  transform: scale(1);
-
-  &.hidden {
-    opacity: 0;
-    transform: scale(0.1);
-    pointer-events: none;
-  }
-
-  .guide-content {
-    position: absolute;
-    bottom: 26vh;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-left: -15px;
-  }
-
-  .guide-text {
-    width: 240px;
-    margin-bottom: 30px;
-  }
-
-  .confirm-button {
-    border: none;
-    background-color: #01C2C3;
-    color: #fff;
-    border-radius: 6px;
-    width: 240px;
-    height: 44px;
-    padding: 0 25px;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .guide-arrow {
-      width: 30px;
-    }
-  }
-}
 
 
 .page-container {
