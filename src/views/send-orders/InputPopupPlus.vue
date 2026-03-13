@@ -1,5 +1,5 @@
 <template>
-  <ec-popup :show="visible" @close="handleClose" @opened="handleOpened" teleport="body" round position="bottom"
+  <van-popup :show="visible" @close="handleClose" @opened="handleOpened" teleport="body" round position="bottom"
     style="background: transparent;">
     <div class="popup-header">
       <div></div>
@@ -10,7 +10,7 @@
         隐患识别规则说明
       </div> -->
       <div class="popup-main">
-        <ec-text-input ref="textareaRef" v-model.trim="textarea" type="textarea" :rows="7" :autosize="{ minRows: 7 }"
+        <van-field ref="textareaRef" v-model.trim="textarea" type="textarea" :rows="7" :autosize="{ minRows: 7 }"
           maxlength="200" show-word-limit placeholder="请输入..." class="textarea-content" />
         <div class="footer-actions">
           <!-- <div class="import-btn btn" @click="handleImport" v-if="showLast">引用上次</div>
@@ -28,12 +28,12 @@
     </div>
     <SelectPopup :visible="selectVisible" :options="storageArr" @update="textarea = $event"
       @close="selectVisible = false" />
-  </ec-popup>
+  </van-popup>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { Icon as EcIcon, Toast as MsgToast } from 'vant';
+import { Icon as EcIcon, showToast } from 'vant';
 // import { AliyunSpeechTranscription } from '@enn/voice-assistant-client';
 import SelectPopup from './SelectPopup.vue';
 const { AliyunSpeechTranscription } = window;
@@ -78,7 +78,7 @@ const handleOpened = () => {
 }
 const handleSubmit = () => {
   if (textarea.value.trim() === '') {
-    return MsgToast.fail('请输入描述');
+    return showToast.fail('请输入描述');
   }
   emit('update', textarea.value);
   if (!storageArr.value.includes(textarea.value)) {
@@ -95,14 +95,14 @@ const handleImport = () => {
     textarea.value = storageArr.value[0];
     showLast.value = false;
   } else {
-    MsgToast.fail('暂无上次描述');
+    showToast.fail('暂无上次描述');
   }
 }
 const handleImportMore = () => {
   if(storageArr.value.length) {
     selectVisible.value = true;
   } else {
-    MsgToast.fail('暂无可引用描述');
+    showToast.fail('暂无可引用描述');
   }
 }
 
@@ -143,12 +143,12 @@ async function startRecording() {
       setupEventListeners();
     }
 
-    // MsgToast.success('开始录音，请说话');
+    // showToast.success('开始录音，请说话');
     isRecording.value = true;
     await aliyunSpeechTranscription.start();
   } catch (error) {
     console.error('开始录音失败:', error);
-    // MsgToast.fail('麦克风权限被拒绝或录音失败');
+    // showToast.fail('麦克风权限被拒绝或录音失败');
     isRecording.value = false;
   }
 }
@@ -158,10 +158,10 @@ async function stopRecording() {
     try {
       await aliyunSpeechTranscription.stop();
       isRecording.value = false;
-      // MsgToast('录音已结束');
+      // showToast('录音已结束');
     } catch (error) {
       console.error('停止录音失败:', error);
-      // MsgToast.fail('停止录音失败');
+      // showToast.fail('停止录音失败');
       isRecording.value = false;
     }
   }
@@ -214,14 +214,14 @@ function setupEventListeners() {
   // 服务失败
   aliyunSpeechTranscription.on('failed', (error) => {
     console.error('语音服务错误:', error);
-    MsgToast.fail('语音识别服务失败');
+    showToast.fail('语音识别服务失败');
     isRecording.value = false;
   });
 
   // WebSocket错误
   aliyunSpeechTranscription.on('error', (error) => {
     console.error('WebSocket连接错误:', error);
-    MsgToast.fail('连接语音服务失败');
+    showToast.fail('连接语音服务失败');
     isRecording.value = false;
   });
 }
@@ -257,6 +257,9 @@ onBeforeUnmount(() => {
   .button-icon {
     width: 27px;
     height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.4);
     cursor: pointer;

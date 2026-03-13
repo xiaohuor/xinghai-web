@@ -1,8 +1,8 @@
 <template>
   <div class="audit-page">
-    <div v-if="wancheng">
+    <!-- <div v-if="wancheng">
       <ec-empty-msg style="margin-top: 20vh;" title="图片审核完毕" description="请点击【完成任务】进行最终确认"> </ec-empty-msg>
-    </div>
+    </div> -->
     <div class="image-list">
       <div v-for="(item, index) in imgList" :key="item.id" class="image-card"
         :class="{ 'active': currentIndex === index }">
@@ -99,7 +99,7 @@
 <script setup>
 import dayjs from 'dayjs';
 import { Cell as EcEntryCell, showDialog, ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
-import { Toast as MsgToast, RadioGroup, Radio } from 'vant';
+import { showToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, onMounted } from 'vue';
 import { defineEmits } from 'vue';
 // import { getImageReviewPage, updateImageReview, updateImageReviewTaskStatus } from '@/api/audit-binary.js'
@@ -131,7 +131,7 @@ const onClickConfirm = async () => {
       console.log(res);
       if (res.data == true) {
         emit('type2');
-        MsgToast.success('完成任务成功');
+        showToast.success('完成任务成功');
       }
     }
   } catch (error) {
@@ -147,7 +147,7 @@ const statusList = ref([
   // { text: '错误', value: '2' },
   { text: '有隐患', value: '1' },
   { text: '无隐患', value: '2' },
-  { text: '图片模糊，无法判断', value: '3' },
+  { text: '无法判断', value: '3' },
   { text: '其他', value: '4' },
 
 ]);
@@ -234,7 +234,7 @@ const getImageList = async () => {
     const { data, success, totalCount } = result
 
     if (!success) {
-      MsgToast.fail('查询图片审核分页列表失败');
+      showToast.fail('查询图片审核分页列表失败');
       return
     }
 
@@ -317,7 +317,7 @@ const handleSubmit = async () => {
   }).catch(() => ({}));
 
   loading.value = false;
-  if (code !== '0') return MsgToast.fail(message || '提交审核失败');
+  if (code !== '0') return showToast.fail(message || '提交审核失败');
   currentIndex.value++;
   suggestion.value = '';
   if (first_sub.value == 0 && route.query.globalStatus == '0') {
@@ -441,31 +441,11 @@ onMounted(async () => {
       margin: 16px 0;
       font-size: 15px;
 
-      :deep(.ec-filter-cell) {
+      :deep(.van-radio-group) {
         // width: fit-content;
-        gap: 8px;
+        display: flex;
+        gap: 10px;
         margin-top: 8px;
-
-        .ec-filter-cell__item {
-          margin: 0;
-          padding: 5px 8px;
-          line-height: 24px;
-          width: fit-content;
-          color: rgba(0, 0, 0, 0.8);
-          border: 1px solid rgba(0, 0, 0, 0.12);
-          background-color: #fff;
-          border-radius: 8px;
-          font-size: 12px;
-
-          // @media screen and (max-width: 345px) {
-          //   padding: 3px 5px;
-          // }
-          &.ec-filter-cell__item--checked {
-            background: rgba(1, 194, 195, 0.12);
-            border: 1px solid #01C2C3;
-            color: #01C2C3;
-          }
-        }
       }
     }
 
@@ -480,13 +460,15 @@ onMounted(async () => {
     }
 
     .next-button {
-      width: 62px;
+      // width: 62px;
       border-radius: 8px;
       font-size: 15px;
       line-height: 44px;
       height: 44px;
       color: #01C2C3;
       font-weight: 500;
+      background-color: transparent;
+      border: none;
     }
 
     .submit-button {

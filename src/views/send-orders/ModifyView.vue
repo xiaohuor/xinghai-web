@@ -91,7 +91,7 @@
 <script setup>
 import dayjs from 'dayjs';
 import { ActionBar as EcActionBar, Button as EcButton, ImagePreview } from 'vant';
-import { Toast as MsgToast, RadioGroup, Radio } from 'vant';
+import { showToast, RadioGroup, Radio } from 'vant';
 import { ref, watch, reactive, computed } from 'vue';
 // import { updateImageReview } from '@/api/audit-binary.js'
 import { defineEmits } from 'vue';
@@ -185,7 +185,7 @@ const statusList = ref([
   // { text: '错误', value: '2' },
   { text: '有隐患', value: '1' },
   { text: '无隐患', value: '2' },
-  { text: '图片模糊，无法判断', value: '3' },
+  { text: '无法判断', value: '3' },
   { text: '其他', value: '4' },
 ]);
 const reviewResult = ref('');
@@ -207,8 +207,8 @@ const handleSubmit = async () => {
   }).catch(() => ({}));
 
   loading.value = false;
-  if (code !== '0') return MsgToast.fail(message || '审核修改失败');
-  MsgToast.success(message || '审核修改成功');
+  if (code !== '0') return showToast.fail(message || '审核修改失败');
+  showToast.success(message || '审核修改成功');
   currentData.value.reviewResult = reviewResult.value;
   emit('close');
 };
@@ -370,31 +370,11 @@ const handlePreview = (imgUrl) => {
       font-size: 15px;
       gap: 12px;
 
-      :deep(.ec-filter-cell) {
-        // width: 170px;
-        gap: 8px;
+      :deep(.van-radio-group) {
+        // width: fit-content;
+        display: flex;
+        gap: 10px;
         margin-top: 8px;
-
-        .ec-filter-cell__item {
-          margin: 0;
-          padding: 5px 8px;
-          line-height: 24px;
-          width: fit-content;
-          color: rgba(0, 0, 0, 0.8);
-          border: 1px solid rgba(0, 0, 0, 0.12);
-          background-color: #fff;
-          border-radius: 8px;
-          font-size: 12px;
-
-          // @media screen and (max-width: 345px) {
-          //   padding: 3px 5px;
-          // }
-          &.ec-filter-cell__item--checked {
-            background: rgba(1, 194, 195, 0.12);
-            border: 1px solid #01C2C3;
-            color: #01C2C3;
-          }
-        }
       }
     }
 
@@ -409,13 +389,16 @@ const handlePreview = (imgUrl) => {
     }
 
     .next-button {
-      width: 62px;
+      // width: 62px;
       border-radius: 8px;
       font-size: 15px;
       line-height: 44px;
       height: 44px;
       color: #01C2C3;
       font-weight: 500;
+      // border: 1px solid #01C2C3;
+      background-color: transparent;
+      border: none;
     }
 
     .submit-button {

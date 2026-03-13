@@ -34,7 +34,7 @@
 import { ref, reactive, onMounted, defineEmits } from 'vue';
 import ModifyView from './ModifyView.vue'
 // import { getImageReviewPage } from '@/api/audit-binary.js'
-import { Toast as MsgToast, RadioGroup, Radio } from 'vant';
+import { showToast, RadioGroup, Radio } from 'vant';
 
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
@@ -79,7 +79,7 @@ const getImageList = async (isLoadMore = false) => {
 
     loading.value = false;
     if (!success) {
-      MsgToast.fail('查询图片审核分页列表失败');
+      showToast.fail('查询图片审核分页列表失败');
       return
     }
 

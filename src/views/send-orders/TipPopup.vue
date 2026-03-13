@@ -1,5 +1,5 @@
 <template>
-  <ec-popup :show="visible" @closed="handleClose" teleport="body" class="select-popup">
+  <van-popup :show="visible" @closed="handleClose" teleport="body" class="select-popup">
 
     <div class="popup-content">
       <!-- 内容区域 -->
@@ -16,7 +16,7 @@
       </div>
 
     </div>
-  </ec-popup>
+  </van-popup>
 </template>
 <script setup>
 import { defineEmits, } from 'vue';
