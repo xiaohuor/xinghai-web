@@ -3,22 +3,39 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
-    component: () => import('@/pages/error-page/404.vue'),
+    component: () => import('@/views/error-page/404.vue'),
   },
   {
     name: 'bookmarks',
     path: '/bookmarks',
-    component: () => import('@/pages/bookmarks/index.vue'),
+    component: () => import('@/views/bookmarks/index.vue'),
   },
   {
     name: 'nav-technology',
     path: '/nav-technology',
-    component: () => import('@/pages/nav-technology/index.vue'),
+    component: () => import('@/views/nav-technology/index.vue'),
   },
   {
     name: 'app',
     path: '/app',
-    component: () => import('@/pages/app-list/index.vue'),
+    component: () => import('@/views/app-list/index.vue'),
+  },
+  {
+    path: '/camera',
+    name: 'camera',
+    component: () => import('@/views/camera/index.vue'),
+    meta: {
+      title: '相机功能'
+    }
+  },
+  // 任务列表-一城一家审核列表
+  {
+    path: '/task-list',
+    name: 'task-list',
+    component: () => import('@/views/task-list/index.vue'),
+    meta: {
+      title: '任务列表'
+    }
   },
   {
     name: 'main',
@@ -33,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '首页',
           icon: 'HomeFilled',
         },
-        component: () => import('@/pages/home/index.vue'),
+        component: () => import('@/views/home/index.vue'),
       },
       {
         name: 'technology',
@@ -42,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '技术',
           icon: 'Platform',
         },
-        component: () => import('@/pages/technology/index.vue'),
+        component: () => import('@/views/technology/index.vue'),
       },
       {
         name: 'life',
@@ -51,7 +68,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '生活',
           icon: 'Sunny',
         },
-        component: () => import('@/pages/life/index.vue'),
+        component: () => import('@/views/life/index.vue'),
       },
       {
         name: 'about',
@@ -60,7 +77,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '关于',
           icon: 'User',
         },
-        component: () => import('@/pages/about/index.vue'),
+        component: () => import('@/views/about/index.vue'),
       },
       {
         name: 'navigation',
@@ -69,7 +86,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '导航',
           icon: 'Compass',
         },
-        component: () => import('@/pages/navigation/index.vue'),
+        component: () => import('@/views/navigation/index.vue'),
       },
     ],
   },
