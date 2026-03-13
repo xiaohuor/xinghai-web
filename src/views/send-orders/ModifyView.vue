@@ -7,20 +7,19 @@
           <img alt="" :src="item.imgUrl" class="base-img"></img>
         </div>
 
-        <AuditCardContent
-          :item="item"
-          :reviewDesc="item.reviewDesc"
-          @edit="handleEdit"
-          @showTip="tipVisible = true"
-          @clickDesc="inputVisible1 = true"
-        />
+        <AuditCardContent :item="item" :reviewDesc="item.reviewDesc" @edit="handleEdit" @showTip="tipVisible = true"
+          @clickDesc="inputVisible1 = true" />
       </div>
     </div>
     <ec-action-bar class="bottom-bar" v-if="disabled">
       <div class="action-bar-content" style="justify-content: flex-start;">
         <span>审核结果:</span>
-        <ec-filter-cell clearable :list="statusList.filter(item => item.value == currentData.reviewResult)"
-          v-model="reviewResult"></ec-filter-cell>
+        <div class="custom-radio-group readonly">
+          <div v-for="item in statusList.filter(item => item.value == currentData.reviewResult)" :key="item.value"
+            class="radio-item active">
+            {{ item.text }}
+          </div>
+        </div>
       </div>
       <div class="action-bar-btn">
         <ec-button type="primary" class="submit-button" text="关闭" @click="emit('close')" />
@@ -30,11 +29,12 @@
       <div class="action-bar-content">
         <span>图片中是否存在上述隐患</span>
         <i class="ec-text-input__label--required" style="margin-left: -8px;"></i>
-        <van-radio-group v-model="reviewResult" @change="handleChange">
-          <van-radio v-for="item in statusList" :key="item.value" :name="item.value" :label="item.value">{{ item.text
-            }}</van-radio>
-
-        </van-radio-group>
+        <div class="custom-radio-group">
+          <div v-for="item in statusList" :key="item.value" class="radio-item"
+            :class="{ active: reviewResult == item.value }" @click="handleChange(item.value)">
+            {{ item.text }}
+          </div>
+        </div>
       </div>
       <div class="action-bar-btn">
         <ec-button :type="editing ? 'text' : 'primary'" text="关闭" :class="editing ? 'next-button' : 'submit-button'"
@@ -327,11 +327,37 @@ const handleClose = (reviewResult) => {
       font-size: 15px;
       gap: 12px;
 
-      :deep(.van-radio-group) {
-        // width: fit-content;
+      .custom-radio-group {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin-top: 8px;
+
+        &.readonly {
+          display: inline-block;
+          margin: 0;
+          margin-left: 10px;
+        }
+
+        .radio-item {
+          padding: 6px 12px;
+          border: 1px solid #ebedf0;
+          border-radius: 6px;
+          font-size: 14px;
+          color: #323233;
+          background: #fff;
+          cursor: pointer;
+          transition: all 0.2s;
+          // min-width: 60px;
+          text-align: center;
+
+          &.active {
+            color: #01C2C3;
+            background: rgba(1, 194, 195, 0.1);
+            border-color: #01C2C3;
+            font-weight: 500;
+          }
+        }
       }
     }
 

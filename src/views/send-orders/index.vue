@@ -208,16 +208,12 @@ margin-top: 41px;
           display: block;
           font-family: 'NumberFont';
         }
-        .num{
-          position: relative;
-          top: 3px;
-        }
       }
 
       .tab-item-icon,
       .num {
         display: none;
-        font-size: 22px;
+        font-size: 16px;
         font-weight: 600;
       }
 

@@ -25,10 +25,12 @@
           <i class="ec-text-input__label--required" style="margin-left: -8px;"></i>
         </span>
 
-        <van-radio-group v-model="reviewResult1" @change="handleChange">
-          <van-radio v-for="item in statusList" :key="item.value" :name="item.value" :label="item.value">{{ item.text
-            }}</van-radio>
-        </van-radio-group>
+        <div class="custom-radio-group">
+          <div v-for="item in statusList" :key="item.value" class="radio-item"
+            :class="{ active: isSelected(item.value) }" @click="handleCustomChange(item.value)">
+            {{ item.text }}
+          </div>
+        </div>
       </div>
 
       <div class="action-bar-btn">
@@ -116,6 +118,18 @@ watch(reviewResult1, (val, oldVal) => {
     reviewResult.value = val[0] || '';
   }
 });
+
+const isSelected = (val) => {
+  if (Array.isArray(reviewResult1.value)) {
+    return reviewResult1.value.includes(val);
+  }
+  return reviewResult1.value === val;
+}
+
+const handleCustomChange = (val) => {
+  reviewResult1.value = [val];
+  handleChange(val);
+}
 
 const handleEdit = (type) => {
   if (type == 'danger') {
@@ -380,11 +394,31 @@ onMounted(async () => {
       margin: 16px 0;
       font-size: 15px;
 
-      :deep(.van-radio-group) {
-        // width: fit-content;
+      .custom-radio-group {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin-top: 8px;
+
+        .radio-item {
+          padding: 6px 12px;
+          border: 1px solid #ebedf0;
+          border-radius: 6px;
+          font-size: 14px;
+          color: #323233;
+          background: #fff;
+          cursor: pointer;
+          transition: all 0.2s;
+          // min-width: 60px;
+          text-align: center;
+          
+          &.active {
+            color: #01C2C3;
+            background: rgba(1, 194, 195, 0.1);
+            border-color: #01C2C3;
+            font-weight: 500;
+          }
+        }
       }
     }
 

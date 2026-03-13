@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="danger-desc" v-if="reviewDesc" style="margin-bottom: 12px;">
+  <div class="danger-desc" v-if="reviewDesc" style="margin-bottom: 12px;" @click="emit('clickDesc')">
     <div class="desc-label">
       <div class="label-text">其他隐患</div>
       <div class="edit-action" @click="emit('edit', 'danger')">
@@ -57,7 +57,7 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['edit', 'showTip'])
+const emit = defineEmits(['edit', 'showTip', 'clickDesc'])
 </script>
 
 <style lang="scss" scoped>
