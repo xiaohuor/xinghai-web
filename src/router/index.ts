@@ -38,6 +38,14 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+      path: '/send-orders',
+      name: 'send-orders',
+      component: () => import('@/views/send-orders/index.vue'),
+      meta: {
+        title: '专家审核'
+      }
+    },
+  {
     name: 'main',
     path: '/',
     redirect: 'home',

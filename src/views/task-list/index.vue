@@ -1,59 +1,63 @@
 <template>
-  <div class="task_list_max">
-    <div class="qiangdan_box">
-      <div class="bg_box">
-        <div class="font">专家核验，助力户内隐患智能识别能力提升</div>
-        <!-- <div class="btn" @click="goToAuditEcej">
-          <span class="font">抢单审核</span>
-          <img src="https://res.ennew.com/image/png/8f38a42af8fe4bdd90b22458631ddca8.png" alt="" />
-        </div> -->
+  <div class="page-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="banner-box">
+        <div class="banner-text">专家核验，助力户内隐患智能识别能力提升</div>
       </div>
     </div>
-    <div class="paidai_box">
-      <div class="pai_title">
+
+    <!-- Task List Section -->
+    <div class="list-section">
+      <div class="section-title">
         <span class="bar"></span>
-        <span class="font">任务派单</span>
+        <span class="title-text">任务派单</span>
       </div>
-      <div class="pai_content">
+      
+      <div class="list-content">
         <ec-pull-refresh v-model="refreshing" @refresh="onRefresh">
-          <ec-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"
-            style="padding-bottom: 20px;">
-            <div class="kaishi" v-for="item in list" :key="item.id">
-              <div class="top">{{ item.taskName }}</div>
-              <div class="center">
-                <div class="task_info">
-                  <div>
-                    <div class="font">已审核(张)</div>
-                    <div class="num">{{ item.reviewedNum }}</div>
-                  </div>
+          <ec-list 
+            v-model:loading="loading" 
+            :finished="finished" 
+            finished-text="没有更多了" 
+            @load="onLoad"
+          >
+            <div class="task-card" v-for="item in list" :key="item.id">
+              <div class="card-header">{{ item.taskName }}</div>
+              
+              <div class="card-body">
+                <div class="info-item">
+                  <div class="label">已审核(张)</div>
+                  <div class="value">{{ item.reviewedNum }}</div>
                 </div>
-                <div class="task_info">
-                  <div class="bar"></div>
-                  <div>
-                    <div class="font">剩余(张)</div>
-                    <div class="num">{{ item.allNum - item.reviewedNum }}</div>
-                  </div>
+                <div class="divider"></div>
+                <div class="info-item">
+                  <div class="label">剩余(张)</div>
+                  <div class="value">{{ item.allNum - item.reviewedNum }}</div>
                 </div>
-                <div class="task_info">
-                  <div class="bar"></div>
-                  <div>
-                    <div class="font">总数(张)</div>
-                    <div class="num">{{ item.allNum }}</div>
-                  </div>
+                <div class="divider"></div>
+                <div class="info-item">
+                  <div class="label">总数(张)</div>
+                  <div class="value">{{ item.allNum }}</div>
                 </div>
               </div>
-              <div class="btm">
-                <div class="tag_1" v-if="item.globalStatus == 0">待审核</div>
-                <div class="tag_2" v-if="item.globalStatus == 1">审核中</div>
-                <div class="tag_3" v-if="item.globalStatus == 2">审核完成</div>
-                <div class="price_box">
-                  <img src="https://res.ennew.com/image/png/6de0b7f990c5d686a0748e16d8538a70.png" alt="" />
-                  <span class="font">{{ item.abilityPrice }}元一张</span>
+
+              <div class="card-footer">
+                <div class="status-tags">
+                  <span class="tag tag-pending" v-if="item.globalStatus == 0">待审核</span>
+                  <span class="tag tag-processing" v-if="item.globalStatus == 1">审核中</span>
+                  <span class="tag tag-completed" v-if="item.globalStatus == 2">审核完成</span>
+                  
+                  <div class="price-tag">
+                    <img src="https://res.ennew.com/image/png/6de0b7f990c5d686a0748e16d8538a70.png" alt="" />
+                    <span>{{ item.abilityPrice }}元一张</span>
+                  </div>
                 </div>
-                <div class="shenhe" @click="goToAudit(item)">
-                  <span class="font" v-if="item.globalStatus == 0">开始审核</span>
-                  <span class="font" v-else-if="item.globalStatus == 1">继续审核</span>
-                  <span class="font" v-else-if="item.globalStatus == 2">查看详情</span>
+
+                <div class="action-btn" @click="goToAudit(item)">
+                  <span v-if="item.globalStatus == 0">开始审核</span>
+                  <span v-else-if="item.globalStatus == 1">继续审核</span>
+                  <span v-else-if="item.globalStatus == 2">查看详情</span>
                   <img src="https://res.ennew.com/image/png/8f38a42af8fe4bdd90b22458631ddca8.png" alt="" />
                 </div>
               </div>
@@ -66,9 +70,7 @@
 </template>
 
 <script setup>
-// import { getTaskList } from '@/api/audit-binary.js'
 import tasksRes from '@/mock/task-list.json'
-
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
@@ -85,7 +87,6 @@ const pageSize = ref(5)
 
 // 加载数据函数
 const loadData = async (isRefresh = false) => {
-  // 设置加载状态
   if (isRefresh) {
     refreshing.value = true
   } else {
@@ -93,29 +94,21 @@ const loadData = async (isRefresh = false) => {
   }
 
   try {
-    const currentPage = isRefresh ? 1 : pageNum.value
-    const queryDTO = {
-      pageNum: currentPage,
-      pageSize: pageSize.value
-    }
+    // 模拟接口请求延迟
+    // await new Promise(resolve => setTimeout(resolve, 500))
 
-    console.log('请求数据:', { pageNum: currentPage, pageSize: pageSize.value })
-    // const res = await getTaskList(queryDTO)
+    const currentPage = isRefresh ? 1 : pageNum.value
     const res = tasksRes
     const newData = res?.data || []
-    console.log('返回数据:', newData.length, '条')
 
     if (isRefresh) {
-      // 刷新时替换数据
       list.value = newData
-      pageNum.value = 2 // 下一页从2开始
+      pageNum.value = 2
     } else {
-      // 加载更多时追加数据
       list.value = [...list.value, ...newData]
       pageNum.value++
     }
 
-    // 判断是否还有更多数据
     if (newData.length < pageSize.value || !newData.length) {
       finished.value = true
     } else {
@@ -124,41 +117,30 @@ const loadData = async (isRefresh = false) => {
   } catch (error) {
     console.error('加载数据失败:', error)
   } finally {
-    // 结束加载状态
     loading.value = false
     refreshing.value = false
   }
 }
 
-// 初始加载
 onMounted(() => {
   loadData()
 })
 
-// 上拉加载更多
 const onLoad = () => {
-  console.log('触发上拉加载', { loading: loading.value, finished: finished.value, pageNum: pageNum.value })
-  // 如果还有更多数据，直接加载
   if (!finished.value) {
     loadData()
   } else {
-    // 没有更多数据时，结束加载状态
     loading.value = false
   }
 }
 
-// 下拉刷新
 const onRefresh = () => {
-  console.log('触发下拉刷新')
-  // 重置状态
   finished.value = false
-  // 重新加载数据
   loadData(true)
 }
 
 const router = useRouter()
 
-// 跳转到派单页面并传递参数（使用query参数更可靠）
 const goToAudit = ({ demandId, globalStatus, allNum, abilityPrice, reviewedNum }) => {
   router.push({
     name: 'send-orders',
@@ -169,259 +151,210 @@ const goToAudit = ({ demandId, globalStatus, allNum, abilityPrice, reviewedNum }
      }
   })
 }
-
-// 跳转到专家审核页面
-const goToAuditEcej = () => {
-  router.push('/audit-ecej')
-}
 </script>
 
 <style lang="scss" scoped>
-.pai_content {
-  width: 100%;
-  height: 74vh;
-  overflow: auto;
-}
-
-.task_list_max {
+.page-container {
   max-width: 600px;
   margin: 0 auto;
   height: 100vh;
-  // width: 100vw;
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   background: #f4f6fa;
+  box-sizing: border-box;
+}
 
-  .qiangdan_box {
-    width: 100%;
-    height: auto;
+.header-section {
+  flex-shrink: 0;
+  
+  .banner-box {
+    margin-top: 6px;
+    height: 101px;
+    background: url('https://res.ennew.com/image/png/b7561a6e3eb2d5564e2b6a70f4d08bc9.png') no-repeat center/cover;
+    border-radius: 10px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    .bg_box {
-      margin-top: 6px;
-      // width: 100%;
-      height: 101px;
-      background: url('https://res.ennew.com/image/png/b7561a6e3eb2d5564e2b6a70f4d08bc9.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 10px;
-      padding-left: 20px;
+    .banner-text {
+      font-family: Alibaba PuHuiTi 2, sans-serif;
+      font-size: 16px;
+      color: #ffffff;
+      width: 60%;
+    }
+  }
+}
+
+.list-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+  margin-top: 20px;
+
+  .section-title {
+    flex-shrink: 0;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    .bar {
+      width: 4px;
+      height: 12px;
+      background: #0d7e7f;
+      border-radius: 2px;
+    }
+
+    .title-text {
+      font-family: PingFang SC, sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #1c1c1e;
+      margin-left: 6px;
+    }
+  }
+
+  .list-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.task-card {
+  background: linear-gradient(180deg, #ffffff 62%, #f7f8fc 100%);
+  border-radius: 16px;
+  border: 2px solid #ffffff;
+  margin-bottom: 12px;
+  padding: 13px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+
+  .card-header {
+    font-family: PingFang SC, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1c1c1e;
+    margin-bottom: 12px;
+  }
+
+  .card-body {
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(28, 28, 30, 0.08);
+
+    .info-item {
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
-
-      .font {
-        font-family: Alibaba PuHuiTi 2, Alibaba PuHuiTi 20;
-        font-weight: normal;
-        font-size: 16px;
-        color: #ffffff;
-        width: 60%;
+      align-items: flex-start;
+      
+      .label {
+        font-family: PingFang SC, sans-serif;
+        font-size: 12px;
+        color: rgba(28, 28, 30, 0.6);
+        margin-bottom: 4px;
       }
 
-      .btn {
-        width: 105px;
-        height: 29px;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 50px 50px 50px 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-
-        img {
-          width: 4px;
-          height: 7px;
-        }
-
-        .font {
-          font-family: PingFang SC, PingFang SC;
-          font-weight: 500;
-          font-size: 14px;
-          color: #007777;
-          margin: 0;
-        }
-      }
-    }
-  }
-
-  .paidai_box {
-    width: 100%;
-    height: 80vh;
-    overflow: auto;
-    margin-top: 21px;
-
-    .pai_title {
-      padding-bottom: 10px;
-      width: 100%;
-      height: auto;
-      display: flex;
-      align-items: center;
-
-      .bar {
-        width: 4px;
-        height: 12px;
-        background: #0d7e7f;
-        border-radius: 2px 2px 2px 2px;
-        display: block;
-      }
-
-      .font {
-        font-family: PingFang SC, PingFang SC;
+      .value {
+        font-family: D-DIN-PRO, sans-serif;
         font-weight: 600;
-        font-size: 16px;
-        color: #1c1c1e;
-        margin-left: 6px;
+        font-size: 18px;
+        color: rgba(28, 28, 30, 0.8);
       }
+    }
+
+    .divider {
+      width: 1px;
+      height: 26px;
+      background: rgba(28, 28, 30, 0.08);
+      margin: 0 24px;
     }
   }
 
-  .kaishi {
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(180deg, #ffffff 62%, #f7f8fc 100%);
-    border-radius: 16px 16px 16px 16px;
-    border: 2px solid #ffffff;
+  .card-footer {
     margin-top: 12px;
-    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    .top {
-      font-family: PingFang SC, PingFang SC;
-      font-weight: 500;
-      font-size: 14px;
-      color: #1c1c1e;
-    }
-
-    .center {
-      width: 100%;
-      height: auto;
-      margin-top: 8px;
+    .status-tags {
       display: flex;
       align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(28, 28, 30, 0.08);
+      gap: 8px;
+      flex-wrap: wrap;
 
-      .task_info {
-        display: flex;
-        align-items: center;
-
-        .font {
-          font-family: PingFang SC, PingFang SC;
-          font-weight: 400;
-          font-size: 12px;
-          color: rgba(28, 28, 30, 0.6);
-        }
-
-        .num {
-          font-family: D-DIN-PRO, D-DIN-PRO;
-          font-weight: 600;
-          font-size: 18px;
-          color: rgba(28, 28, 30, 0.8);
-        }
-      }
-
-      .bar {
-        width: 1px;
-        height: 26px;
-        background: rgba(28, 28, 30, 0.08);
-        margin: 0 33px;
-      }
-    }
-
-    .btm {
-      width: 100%;
-      margin-top: 10px;
-      height: auto;
-      position: relative;
-
-      .tag_1 {
-        float: left;
-        display: inline-block;
+      .tag {
         padding: 4px 8px;
-        background: rgba(255, 140, 0, 0.12);
         border-radius: 2px;
-        font-family: PingFang SC, PingFang SC;
-        font-weight: 400;
+        font-family: PingFang SC, sans-serif;
         font-size: 12px;
+        line-height: 1;
+      }
+
+      .tag-pending {
+        background: rgba(255, 140, 0, 0.12);
         color: #ff8c00;
-        line-height: 1;
       }
 
-      .tag_2 {
-        float: left;
-        display: inline-block;
-        padding: 4px 8px;
+      .tag-processing {
         background: #dfe5ff;
-        border-radius: 2px;
-        font-family: PingFang SC, PingFang SC;
-        font-weight: 400;
-        font-size: 12px;
         color: #356bfd;
-        line-height: 1;
       }
 
-      .tag_3 {
-        float: left;
-        display: inline-block;
-        padding: 4px 8px;
+      .tag-completed {
         background: rgba(1, 194, 195, 0.12);
-        border-radius: 2px;
-        font-family: PingFang SC, PingFang SC;
-        font-weight: 400;
-        font-size: 12px;
         color: #01c2c3;
-        line-height: 1;
       }
 
-      .price_box {
-        float: left;
-        display: inline-block;
-        padding: 0px 8px;
-        margin-left: 6px;
+      .price-tag {
+        padding: 4px 8px;
+        background: rgba(255, 140, 0, 0.12);
+        border-radius: 2px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        background: rgba(255, 140, 0, 0.12);
-        border-radius: 2px 2px 2px 2px;
+        gap: 4px;
 
         img {
           width: 16px;
           height: 16px;
         }
 
-        .font {
-          font-family: PingFang SC, PingFang SC;
+        span {
+          font-family: PingFang SC, sans-serif;
           font-weight: 600;
           font-size: 12px;
           color: #ff8c00;
         }
       }
+    }
 
-      .shenhe {
-        position: absolute;
-        top: 0px;
-        right: 16px;
-        width: 82px;
-        height: 25px;
-        margin-left: 93px;
-        background: rgba(13, 126, 127, 0.12);
-        border-radius: 50px 50px 50px 50px;
-        border: 1px solid rgba(13, 126, 127, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        cursor: pointer;
+    .action-btn {
+      padding: 4px 12px;
+      background: rgba(13, 126, 127, 0.12);
+      border-radius: 50px;
+      border: 1px solid rgba(13, 126, 127, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
 
-        img {
-          width: 4px;
-          height: 7px;
-        }
+      span {
+        font-family: PingFang SC, sans-serif;
+        font-weight: 500;
+        font-size: 13px;
+        color: #0d7e7f;
+      }
 
-        .font {
-          font-family: PingFang SC, PingFang SC;
-          font-weight: 500;
-          font-size: 13px;
-          color: #0d7e7f;
-        }
+      img {
+        width: 4px;
+        height: 7px;
       }
     }
   }
