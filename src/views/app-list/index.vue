@@ -1,75 +1,79 @@
 <template>
-  <div class="app-list-container flex-row">
-        <!-- Section 1: Common Sites -->
-        <div class="flex-col">
-          <div class="section-header">
-            <el-icon class="section-icon" color="#409eff">
-              <Collection />
-            </el-icon>
-            <span class="section-title">常用网站</span>
-          </div>
-          <el-card shadow="hover" class="link-card">
-            <ul class="link-list">
-              <li v-for="(item, index) in list1" :key="index" @click="openWindow(item.url)" class="list-item">
-                <div class="item-content">
-                  <el-icon class="item-icon" :size="20" color="#67C23A">
-                    <ChromeFilled />
-                  </el-icon>
-                  <span class="item-title">{{ item.title }}</span>
-                </div>
-                <el-icon class="arrow-icon">
-                  <ArrowRight />
-                </el-icon>
-              </li>
-            </ul>
-          </el-card>
+  <div class="app-list-container">
+    <div class="flex-row">
+      <!-- Section 1: Common Sites -->
+      <div class="flex-col">
+        <div class="section-header">
+          <el-icon class="section-icon" color="#409eff">
+            <Collection />
+          </el-icon>
+          <span class="section-title">常用网站</span>
         </div>
+        <el-card shadow="hover" class="link-card">
+          <ul class="link-list">
+            <li v-for="(item, index) in list1" :key="index" @click="openWindow(item.url)" class="list-item">
+              <div class="item-content">
+                <el-icon class="item-icon" :size="20" color="#67C23A">
+                  <ChromeFilled />
+                </el-icon>
+                <span class="item-title">{{ item.title }}</span>
+              </div>
+              <el-icon class="arrow-icon">
+                <ArrowRight />
+              </el-icon>
+            </li>
+          </ul>
+        </el-card>
+      </div>
 
-        <!-- Section 2: H5 Apps -->
-        <div class="flex-col">
-          <div class="section-header">
-            <el-icon class="section-icon" color="#e6a23c">
-              <Iphone />
-            </el-icon>
-            <span class="section-title">应用列表</span>
-          </div>
-          <el-card shadow="hover" class="link-card">
-            <ul class="link-list">
-              <li v-for="(item, index) in list2" :key="index" @click="openWindow(item.url)" class="list-item">
-                <div class="item-content">
-                  <el-icon class="item-icon" :size="20" color="#409EFF">
-                    <Platform />
-                  </el-icon>
-                  <span class="item-title">{{ item.title }}</span>
-                </div>
-                <el-icon class="arrow-icon">
-                  <ArrowRight />
-                </el-icon>
-              </li>
-            </ul>
-          </el-card>
+      <!-- Section 2: H5 Apps -->
+      <div class="flex-col">
+        <div class="section-header">
+          <el-icon class="section-icon" color="#e6a23c">
+            <Iphone />
+          </el-icon>
+          <span class="section-title">应用列表</span>
         </div>
+        <el-card shadow="hover" class="link-card">
+          <ul class="link-list">
+            <li v-for="(item, index) in list2" :key="index" @click="openWindow(item.url)" class="list-item">
+              <div class="item-content">
+                <el-icon class="item-icon" :size="20" color="#409EFF">
+                  <Platform />
+                </el-icon>
+                <span class="item-title">{{ item.title }}</span>
+              </div>
+              <el-icon class="arrow-icon">
+                <ArrowRight />
+              </el-icon>
+            </li>
+          </ul>
+        </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Collection, Iphone, ChromeFilled, Platform, ArrowRight } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const list1 = ref([
   {
     title: "星海的小站",
-    url: baseUrl
+    url: '#/'
   },
   {
     title: "个人书签",
-    url: baseUrl + "#/bookmarks"
+    url: "#/bookmarks"
   },
   {
     title: "技术导航",
-    url: baseUrl + "#/nav-technology"
+    url: "#/nav-technology"
   },
 ]);
 
@@ -89,37 +93,55 @@ const list2 = ref([
   {
     title: "6%",
     url: baseUrl + "/h5/6-percents/"
-  }, 
+  },
   {
     title: "思睿康药量变化和网购行为关系",
     url: baseUrl + "/h5/charts-heyue/"
-  }, 
+  },
   {
     title: "个人简历",
     url: baseUrl + "/h5/resume/"
   },
   {
     title: "二分类专家审核-ecej",
-    url: baseUrl + "#/task-list"
+    url: "#/task-list"
   },
 ]);
 
-const openWindow = (url: string) => {
-  window.open(url, '_blank');
+const openWindow = async (url: string) => {
+  try {
+    if (url.startsWith('#/')) {
+      await router.push(url.replace(/^#/, ''))
+      return
+    }
+
+    const parsed = new URL(url, window.location.href)
+    if (parsed.hash?.startsWith('#/')) {
+      await router.push(parsed.hash.replace(/^#/, ''))
+      return
+    }
+
+    if (parsed.origin === window.location.origin && parsed.pathname === '/' && !parsed.hash) {
+      await router.push('/')
+      return
+    }
+  } catch {}
+
+  window.open(url, '_blank')
 }
 </script>
 
 <style lang="scss" scoped>
 .app-list-container {
-  width: 100%;
-  height: 100%;
-  background-color: #f5f7fa;
+  padding: 15px;
 }
 
 .flex-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
   gap: 20px;
 }
 
@@ -127,7 +149,6 @@ const openWindow = (url: string) => {
   flex: 1;
   min-width: 250px;
   max-width: 500px;
-  padding: 15px;
 }
 
 .section-header {

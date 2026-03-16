@@ -190,7 +190,7 @@ const handleScroll = (e: Event) => {
 <style lang="scss" scoped>
 .nav-technology-container {
   height: 100%;
-  background-color: #f5f7fa;
+  // background-color: #f5f7fa;
   overflow: hidden;
 }
 
