@@ -1,7 +1,5 @@
 <template>
-  <div class="app-list-container">
-    <div class="content-wrapper">
-      <div class="flex-row">
+  <div class="app-list-container flex-row">
         <!-- Section 1: Common Sites -->
         <div class="flex-col">
           <div class="section-header">
@@ -51,8 +49,6 @@
             </ul>
           </el-card>
         </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -117,42 +113,27 @@ const openWindow = (url: string) => {
 .app-list-container {
   width: 100%;
   height: 100%;
-  /* Use flex to handle inner scrolling if needed, or just let content flow */
-  display: flex;
-  flex-direction: column;
   background-color: #f5f7fa;
-  /* Remove overflow from container, let content wrapper handle it or fit within */
-  overflow: hidden;
-}
-
-.content-wrapper {
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 40px 20px;
-  flex: 1;
-  overflow-y: auto;
-  /* Scroll here if content overflows */
 }
 
 .flex-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  justify-content: center;
+  gap: 20px;
 }
 
 .flex-col {
   flex: 1;
-  min-width: 300px;
-  /* Responsive behavior */
-  display: flex;
-  flex-direction: column;
+  min-width: 250px;
+  max-width: 500px;
+  padding: 15px;
 }
 
 .section-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding-left: 10px;
 
   .section-icon {
@@ -171,10 +152,6 @@ const openWindow = (url: string) => {
   border-radius: 12px;
   border: none;
   transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
 
   :deep(.el-card__body) {
     padding: 0;
